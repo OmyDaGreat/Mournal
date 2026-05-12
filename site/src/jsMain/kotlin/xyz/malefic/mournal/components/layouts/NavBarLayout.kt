@@ -1,4 +1,4 @@
-package xyz.malefic.staticsite.components.layouts
+package xyz.malefic.mournal.components.layouts
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,10 +31,10 @@ import com.varabyte.kobweb.silk.style.toModifier
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Text
-import xyz.malefic.staticsite.util.Pages
+import xyz.malefic.mournal.util.Pages
+import kotlin.time.Duration.Companion.seconds
 import com.varabyte.kobweb.compose.ui.graphics.Color as Kolor
 
-// Silk-themed styles
 val NavBarStyle =
     CssStyle.base {
         Modifier
@@ -287,13 +287,12 @@ fun NavBarLayout(content: @Composable () -> Unit) {
         if (isDropdownOpen) {
             // You might want to add a click outside listener here
             // For simplicity, we'll just auto-close after a delay
-            kotlinx.coroutines.delay(5000)
+            kotlinx.coroutines.delay(5.seconds)
             isDropdownOpen = false
         }
     }
 }
 
-// Helper functions
 private fun Pages.isCurrentPage(currentRoute: String): Boolean =
     when (this) {
         Pages.INDEX -> currentRoute == "" || currentRoute == "/"

@@ -11,6 +11,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "staticsite"
+rootProject.name = "mournal"
 
 include(":site")
