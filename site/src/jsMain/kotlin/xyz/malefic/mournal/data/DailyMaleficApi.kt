@@ -9,7 +9,7 @@ import kotlin.js.JSON
 import kotlin.js.json
 import kotlin.js.unsafeCast
 
-const val DailyMaleficBaseUrl = "http://100.125.223.81:7290"
+const val DailyMaleficBaseUrl = "https://daily.malefic.xyz"
 private const val ApiKeyStorageKey = "mournal.api.key"
 
 data class Artist(
