@@ -10,20 +10,32 @@ import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
+import com.varabyte.kobweb.compose.ui.modifiers.background
 import com.varabyte.kobweb.compose.ui.modifiers.border
 import com.varabyte.kobweb.compose.ui.modifiers.borderRadius
 import com.varabyte.kobweb.compose.ui.modifiers.color
+import com.varabyte.kobweb.compose.ui.modifiers.display
+import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
 import com.varabyte.kobweb.compose.ui.modifiers.fontSize
 import com.varabyte.kobweb.compose.ui.modifiers.fontWeight
 import com.varabyte.kobweb.compose.ui.modifiers.gap
+import com.varabyte.kobweb.compose.ui.modifiers.letterSpacing
+import com.varabyte.kobweb.compose.ui.modifiers.lineHeight
+import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.padding
+import com.varabyte.kobweb.compose.ui.modifiers.transition
 import com.varabyte.kobweb.compose.ui.modifiers.width
 import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.Page
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.attributes.placeholder
+import org.jetbrains.compose.web.css.AnimationTimingFunction
+import org.jetbrains.compose.web.css.Color
+import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.LineStyle
+import org.jetbrains.compose.web.css.em
+import org.jetbrains.compose.web.css.ms
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Div
@@ -90,10 +102,9 @@ fun SearchPage() {
                     Modifier
                         .fontWeight(FontWeight.Black)
                         .fontSize(40.px)
-                        .styleModifier {
-                            property("margin", "0")
-                            property("letter-spacing", "0.02em")
-                        }.toAttrs(),
+                        .margin(0.px)
+                        .letterSpacing(.02.em)
+                        .toAttrs(),
             ) {
                 Text("SEARCH")
             }
@@ -107,13 +118,14 @@ fun SearchPage() {
                         .borderRadius(6.px)
                         .padding(GalaxyTheme.s(2))
                         .color(GalaxyTheme.textPrimary)
-                        .styleModifier {
-                            property("background", "#0f1528")
-                            property("font-family", "'Inter', 'Avenir Next', 'Segoe UI', sans-serif")
-                            property("font-size", "14px")
-                            property("font-weight", "350")
-                            property("transition", "border-color 180ms ease, transform 180ms ease")
-                            property("transform", "scale(0.98)")
+                        .background(Color("#0f1528"))
+                        .fontFamily("Inter", "Avenir Next", "Segoe UI", "sans-serif")
+                        .fontSize(14.px)
+                        .fontWeight(350)
+                        .transition {
+                            property("border-color", "transform")
+                            duration(180.ms)
+                            timingFunction(AnimationTimingFunction.Ease)
                         }.toAttrs {
                             placeholder("Search id, author, date, text, song…")
                             value(query)
@@ -148,11 +160,10 @@ fun SearchPage() {
                             Modifier
                                 .color(GalaxyTheme.textSecondary)
                                 .fontSize(13.px)
-                                .styleModifier {
-                                    property("margin", "0")
-                                    property("font-weight", "350")
-                                    property("letter-spacing", "0.04em")
-                                }.toAttrs(),
+                                .margin(0.px)
+                                .fontWeight(350)
+                                .letterSpacing(.04.em)
+                                .toAttrs(),
                     ) {
                         Text("FOUND ${filteredEntries.size}")
                     }
@@ -161,11 +172,11 @@ fun SearchPage() {
                         attrs =
                             Modifier
                                 .width(100.percent)
+                                .display(DisplayStyle.Grid)
                                 .styleModifier {
-                                    property("display", "grid")
                                     property("grid-template-columns", "repeat(auto-fit, minmax(280px, 1fr))")
-                                    property("gap", "16px")
-                                }.toAttrs(),
+                                }.gap(16.px)
+                                .toAttrs(),
                     ) {
                         filteredEntries.forEach { entry ->
                             val isFocused = focusedEntryId == entry.id
@@ -182,23 +193,21 @@ fun SearchPage() {
                                         attrs =
                                             Modifier
                                                 .fontWeight(FontWeight.Bold)
-                                                .styleModifier {
-                                                    property("margin", "0")
-                                                    property("font-size", "14px")
-                                                    property("letter-spacing", "0.02em")
-                                                }.toAttrs(),
+                                                .margin(0.px)
+                                                .fontSize(14.px)
+                                                .letterSpacing(.02.em)
+                                                .toAttrs(),
                                     ) {
                                         Text("${entry.author} · ${entry.date} · #${entry.id}")
                                     }
                                     P(
                                         attrs =
                                             Modifier
-                                                .styleModifier {
-                                                    property("margin", "0")
-                                                    property("font-size", "14px")
-                                                    property("font-weight", "350")
-                                                    property("line-height", "1.45")
-                                                }.toAttrs(),
+                                                .margin(0.px)
+                                                .fontSize(14.px)
+                                                .fontWeight(350)
+                                                .lineHeight(1.45)
+                                                .toAttrs(),
                                     ) {
                                         Text(entry.text)
                                     }
@@ -207,11 +216,10 @@ fun SearchPage() {
                                             attrs =
                                                 Modifier
                                                     .color(GalaxyTheme.lavender)
-                                                    .styleModifier {
-                                                        property("margin", "0")
-                                                        property("font-size", "12px")
-                                                        property("font-weight", "500")
-                                                    }.toAttrs(),
+                                                    .margin(0.px)
+                                                    .fontSize(12.px)
+                                                    .fontWeight(500)
+                                                    .toAttrs(),
                                         ) {
                                             Text("♪ ${song.name}")
                                         }
