@@ -1,294 +1,128 @@
 package xyz.malefic.mournal.components.layouts
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.varabyte.kobweb.compose.css.Background
-import com.varabyte.kobweb.compose.css.BackgroundImage
 import com.varabyte.kobweb.compose.css.Cursor
-import com.varabyte.kobweb.compose.css.Transition
-import com.varabyte.kobweb.compose.css.WhiteSpace
-import com.varabyte.kobweb.compose.css.functions.LinearGradient
-import com.varabyte.kobweb.compose.css.functions.linearGradient
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.graphics.Colors
-import com.varabyte.kobweb.compose.ui.modifiers.*
+import com.varabyte.kobweb.compose.ui.modifiers.background
+import com.varabyte.kobweb.compose.ui.modifiers.border
+import com.varabyte.kobweb.compose.ui.modifiers.borderRadius
+import com.varabyte.kobweb.compose.ui.modifiers.color
+import com.varabyte.kobweb.compose.ui.modifiers.cursor
+import com.varabyte.kobweb.compose.ui.modifiers.fillMaxHeight
+import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
+import com.varabyte.kobweb.compose.ui.modifiers.flexGrow
+import com.varabyte.kobweb.compose.ui.modifiers.fontSize
+import com.varabyte.kobweb.compose.ui.modifiers.fontWeight
+import com.varabyte.kobweb.compose.ui.modifiers.gap
+import com.varabyte.kobweb.compose.ui.modifiers.height
+import com.varabyte.kobweb.compose.ui.modifiers.padding
+import com.varabyte.kobweb.compose.ui.modifiers.width
 import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.core.layout.Layout
 import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.navigation.Link
-import com.varabyte.kobweb.silk.style.CssStyle
-import com.varabyte.kobweb.silk.style.base
-import com.varabyte.kobweb.silk.style.selectors.hover
-import com.varabyte.kobweb.silk.style.toModifier
-import org.jetbrains.compose.web.css.*
+import org.jetbrains.compose.web.css.Color
+import org.jetbrains.compose.web.css.LineStyle
+import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Text
+import xyz.malefic.mournal.styles.GalaxyTheme
 import xyz.malefic.mournal.util.Pages
-import kotlin.time.Duration.Companion.seconds
-import com.varabyte.kobweb.compose.ui.graphics.Color as Kolor
-
-val NavBarStyle =
-    CssStyle.base {
-        Modifier
-            .fillMaxWidth()
-            .height(60.px)
-            .background(
-                Background.of(
-                    BackgroundImage.of(
-                        linearGradient(
-                            LinearGradient.Direction.ToRight,
-                        ) {
-                            add(Color("#f8f9fa"), 0.percent)
-                            add(Color("#e9ecef"), 50.percent)
-                            add(Color("#dee2e6"), 100.percent)
-                        },
-                    ),
-                ),
-            ).boxShadow(0.px, 2.px, 4.px, color = Kolor.rgba(0f, 0f, 0f, 0.1f))
-            .borderBottom(1.px, LineStyle.Solid, Color("#dee2e6"))
-    }
-
-val NavItemStyle =
-    Modifier
-        .padding(12.px, 20.px)
-        .margin(0.px, 4.px)
-        .borderRadius(6.px)
-        .styleModifier {
-            textDecoration("none")
-        }.color(Color("#495057"))
-        .fontSize(14.px)
-        .fontWeight(500)
-        .transition(Transition.all(0.2.s))
-        .whiteSpace(WhiteSpace.NoWrap)
-
-val NavItemHoverStyle =
-    CssStyle {
-        base {
-            NavItemStyle
-        }
-
-        hover {
-            Modifier
-                .background(Kolor.rgba(108f, 117f, 125f, 0.1f))
-                .color(Color("#212529"))
-                .translateY((-1).px)
-        }
-    }
-
-val ActiveNavItemStyle =
-    CssStyle.base {
-        NavItemStyle
-            .background(Kolor.rgba(13f, 110f, 253f, 0.1f))
-            .color(Color("#0d6efd"))
-            .fontWeight(600)
-    }
-
-val DropdownStyle =
-    CssStyle.base {
-        Modifier
-            .position(Position.Relative)
-            .display(DisplayStyle.InlineBlock)
-    }
-
-val DropdownContentStyle =
-    CssStyle.base {
-        Modifier
-            .position(Position.Absolute)
-            .top(100.percent)
-            .right(0.px)
-            .background(Colors.White)
-            .minWidth(180.px)
-            .boxShadow(0.px, 8.px, 16.px, color = Kolor.rgba(0f, 0f, 0f, 0.15f))
-            .borderRadius(8.px)
-            .border(1.px, LineStyle.Solid, Color("#dee2e6"))
-            .zIndex(1000)
-            .padding(8.px, 0.px)
-    }
-
-val DropdownItemStyle =
-    Modifier
-        .display(DisplayStyle.Block)
-        .padding(10.px, 16.px)
-        .styleModifier {
-            textDecoration("none")
-        }.color(Color("#495057"))
-        .fontSize(14.px)
-        .transition(Transition.of("background-color", 0.15.s))
-        .whiteSpace(WhiteSpace.NoWrap)
-
-val DropdownItemHoverStyle =
-    CssStyle {
-        base {
-            DropdownItemStyle
-        }
-
-        hover {
-            Modifier.background(Color("#f8f9fa"))
-        }
-    }
-
-val DropdownButtonStyle =
-    Modifier
-        .padding(12.px, 16.px)
-        .margin(0.px, 4.px)
-        .borderRadius(6.px)
-        .background(Colors.Transparent)
-        .border(1.px, LineStyle.Solid, Color("#dee2e6"))
-        .color(Color("#495057"))
-        .fontSize(14.px)
-        .fontWeight(500)
-        .cursor(Cursor.Pointer)
-        .transition(Transition.all(0.2.s))
-        .styleModifier {
-            property("white-space", "nowrap")
-        }
-
-val DropdownButtonHoverStyle =
-    CssStyle {
-        base {
-            DropdownButtonStyle
-        }
-
-        hover {
-            Modifier
-                .background(Kolor.rgba(108f, 117f, 125f, 0.1f))
-                .border {
-                    color(Color("#adb5bd"))
-                }
-        }
-    }
 
 @Layout
 @Composable
 fun NavBarLayout(content: @Composable () -> Unit) {
     val ctx = rememberPageContext()
     val currentRoute = ctx.route.path
-    var isDropdownOpen by remember { mutableStateOf(false) }
+    var focusedRoute by mutableStateOf(currentRoute.ifBlank { "/" })
 
-    // Configuration: Maximum number of pages to show before overflow
-    val maxVisiblePages = 4
-    val allPages = Pages.entries
-    val visiblePages = allPages.take(maxVisiblePages)
-    val overflowPages = allPages.drop(maxVisiblePages)
-
-    Column(Modifier.fillMaxSize()) {
-        // Navigation Bar
+    Row(Modifier.fillMaxSize()) {
         Box(
-            NavBarStyle.toModifier(),
-            contentAlignment = Alignment.Center,
+            Modifier
+                .fillMaxHeight()
+                .width(72.px)
+                .background(Color("#090f1d"))
+                .border(1.px, LineStyle.Solid, Color("#242d4a"))
+                .styleModifier { property("border-left", "none") }
+                .padding(topBottom = GalaxyTheme.s(3), leftRight = GalaxyTheme.s(1)),
+            contentAlignment = Alignment.TopCenter,
         ) {
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .maxWidth(1200.px)
-                    .padding(0.px, 20.px),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                // Brand/Logo area (optional)
-                Box(Modifier.flexGrow(1)) {
-                    // Developers can customize this area
-                }
+            Column(Modifier.gap(GalaxyTheme.s(1)), horizontalAlignment = Alignment.CenterHorizontally) {
+                Pages.entries.forEach { page ->
+                    val route = page.route
+                    val isCurrent = page.isCurrentPage(currentRoute)
+                    val isFocused = route == focusedRoute || isCurrent
+                    val shortLabel = page.value.take(1).uppercase()
 
-                // Navigation Links
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    // Visible navigation items
-                    visiblePages.forEach { page ->
-                        val isActive = page.isCurrentPage(currentRoute)
-                        val pageRoute = page.route
-
+                    Div(
+                        attrs = {
+                            title(page.value)
+                            onMouseEnter { focusedRoute = route }
+                            onMouseLeave { focusedRoute = currentRoute.ifBlank { "/" } }
+                        },
+                    ) {
                         Link(
-                            path = pageRoute,
+                            path = route,
                             modifier =
-                                if (isActive) {
-                                    ActiveNavItemStyle.toModifier()
-                                } else {
-                                    NavItemHoverStyle.toModifier()
-                                },
+                                Modifier
+                                    .width(48.px)
+                                    .height(48.px)
+                                    .background(if (isCurrent) Color("#202a4a") else Color("#121a31"))
+                                    .border(1.px, LineStyle.Solid, if (isFocused) Color("#a490c2") else Color("#2f3655"))
+                                    .borderRadius(6.px)
+                                    .color(if (isCurrent) Color("#f7f4ff") else Color("#d0d5ef"))
+                                    .fontWeight(if (isCurrent) 700 else 500)
+                                    .fontSize(14.px)
+                                    .cursor(Cursor.Pointer)
+                                    .styleModifier {
+                                        property("display", "flex")
+                                        property("align-items", "center")
+                                        property("justify-content", "center")
+                                        property("text-decoration", "none")
+                                        property("letter-spacing", "0.08em")
+                                        property("transform", if (isFocused) "scale(1.08)" else "scale(0.88)")
+                                        property(
+                                            "box-shadow",
+                                            if (isFocused) {
+                                                "0 0 0 1px rgba(164,144,194,0.25), 0 10px 20px rgba(33,40,76,0.35)"
+                                            } else {
+                                                "0 6px 10px rgba(0,0,0,0.28)"
+                                            },
+                                        )
+                                        property("transition", "transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease")
+                                    },
                         ) {
-                            Text(page.value)
-                        }
-                    }
-
-                    // Overflow dropdown (only show if there are overflow pages)
-                    if (overflowPages.isNotEmpty()) {
-                        Box(DropdownStyle.toModifier()) {
-                            // Dropdown button
-                            Div(
-                                attrs = {
-                                    onClick { isDropdownOpen = !isDropdownOpen }
-                                },
-                            ) {
-                                Box(
-                                    DropdownButtonHoverStyle.toModifier(),
-                                    contentAlignment = Alignment.Center,
-                                ) {
-                                    Row(verticalAlignment = Alignment.CenterVertically) {
-                                        Text("More")
-                                        // Simple arrow indicator
-                                        Box(
-                                            Modifier
-                                                .margin(left = 8.px)
-                                                .fontSize(10.px),
-                                        ) {
-                                            Text(if (isDropdownOpen) "▲" else "▼")
-                                        }
-                                    }
-                                }
-                            }
-
-                            // Dropdown content
-                            if (isDropdownOpen) {
-                                Box(DropdownContentStyle.toModifier()) {
-                                    Column {
-                                        overflowPages.forEach { page ->
-                                            val isActive = page.isCurrentPage(currentRoute)
-                                            val pageRoute = page.route
-
-                                            Link(
-                                                path = pageRoute,
-                                                modifier =
-                                                    if (isActive) {
-                                                        DropdownItemStyle
-                                                            .background(Kolor.rgba(13f, 110f, 253f, 0.1f))
-                                                            .color(Color("#0d6efd"))
-                                                            .fontWeight(600)
-                                                    } else {
-                                                        DropdownItemHoverStyle.toModifier()
-                                                    },
-                                            ) {
-                                                Text(page.value)
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                            Text(shortLabel)
                         }
                     }
                 }
             }
         }
 
-        // Page content
-        Box(Modifier.fillMaxSize()) {
+        Box(
+            Modifier
+                .flexGrow(1)
+                .fillMaxHeight()
+                .padding(leftRight = GalaxyTheme.s(4), topBottom = GalaxyTheme.s(4))
+                .styleModifier {
+                    property("font-family", "'Inter', 'Avenir Next', 'Segoe UI', sans-serif")
+                    property("line-height", "1.45")
+                    property(
+                        "background-image",
+                        "radial-gradient(circle at 12% 18%, rgba(74, 78, 143, 0.26) 0%, rgba(7, 11, 22, 0.08) 36%), " +
+                            "radial-gradient(circle at 78% 8%, rgba(164, 144, 194, 0.18) 0%, rgba(7, 11, 22, 0.04) 42%)",
+                    )
+                },
+            contentAlignment = Alignment.TopCenter,
+        ) {
             content()
-        }
-    }
-
-    // Close dropdown when clicking outside
-    LaunchedEffect(isDropdownOpen) {
-        if (isDropdownOpen) {
-            // You might want to add a click outside listener here
-            // For simplicity, we'll just auto-close after a delay
-            kotlinx.coroutines.delay(5.seconds)
-            isDropdownOpen = false
         }
     }
 }
