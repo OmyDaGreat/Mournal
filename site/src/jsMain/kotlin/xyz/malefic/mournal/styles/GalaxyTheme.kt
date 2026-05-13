@@ -8,13 +8,21 @@ import com.varabyte.kobweb.compose.ui.modifiers.borderRadius
 import com.varabyte.kobweb.compose.ui.modifiers.color
 import com.varabyte.kobweb.compose.ui.modifiers.cursor
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
+import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
+import com.varabyte.kobweb.compose.ui.modifiers.fontWeight
 import com.varabyte.kobweb.compose.ui.modifiers.gap
+import com.varabyte.kobweb.compose.ui.modifiers.letterSpacing
 import com.varabyte.kobweb.compose.ui.modifiers.maxWidth
 import com.varabyte.kobweb.compose.ui.modifiers.padding
+import com.varabyte.kobweb.compose.ui.modifiers.transform
+import com.varabyte.kobweb.compose.ui.modifiers.transition
 import com.varabyte.kobweb.compose.ui.modifiers.width
 import com.varabyte.kobweb.compose.ui.styleModifier
+import org.jetbrains.compose.web.css.AnimationTimingFunction
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.LineStyle
+import org.jetbrains.compose.web.css.em
+import org.jetbrains.compose.web.css.ms
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 
@@ -59,9 +67,12 @@ object GalaxyTheme {
             .borderRadius(8.px)
             .padding(s(2))
             .cursor(Cursor.Pointer)
-            .styleModifier {
-                property("transform", if (isFocused) "scale(1.03)" else "scale(0.95)")
-                property("transition", "transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease")
+            .transform { if (isFocused) scale(1.03) else scale(.95) }
+            .transition {
+                property("transform", "border-color", "box-shadow")
+                duration(180.ms)
+                timingFunction(AnimationTimingFunction.Ease)
+            }.styleModifier {
                 property(
                     "box-shadow",
                     if (isFocused) {
@@ -80,11 +91,13 @@ object GalaxyTheme {
             .padding(s(1), s(2))
             .color(textPrimary)
             .cursor(Cursor.Pointer)
-            .styleModifier {
-                property("font-family", "'Inter', 'Avenir Next', 'Segoe UI', sans-serif")
-                property("font-weight", "600")
-                property("letter-spacing", "0.02em")
-                property("transform", "scale(0.94)")
-                property("transition", "transform 180ms ease, background-color 180ms ease, border-color 180ms ease")
+            .fontFamily("Inter", "Avenir Next", "Segoe UI", "sans-serif")
+            .fontWeight(600)
+            .letterSpacing(.02.em)
+            .transform { scale(.94) }
+            .transition {
+                property("transform", "background-color", "border-color")
+                duration(180.ms)
+                timingFunction(AnimationTimingFunction.Ease)
             }
 }
