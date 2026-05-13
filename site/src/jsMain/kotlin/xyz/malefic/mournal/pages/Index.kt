@@ -6,22 +6,39 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.varabyte.kobweb.compose.css.FontWeight
+import com.varabyte.kobweb.compose.css.JustifyContent
+import com.varabyte.kobweb.compose.css.TextShadow
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
+import com.varabyte.kobweb.compose.ui.modifiers.alignItems
 import com.varabyte.kobweb.compose.ui.modifiers.color
+import com.varabyte.kobweb.compose.ui.modifiers.display
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
+import com.varabyte.kobweb.compose.ui.modifiers.flexDirection
 import com.varabyte.kobweb.compose.ui.modifiers.fontSize
 import com.varabyte.kobweb.compose.ui.modifiers.fontWeight
 import com.varabyte.kobweb.compose.ui.modifiers.gap
+import com.varabyte.kobweb.compose.ui.modifiers.justifyContent
+import com.varabyte.kobweb.compose.ui.modifiers.letterSpacing
+import com.varabyte.kobweb.compose.ui.modifiers.lineHeight
+import com.varabyte.kobweb.compose.ui.modifiers.margin
+import com.varabyte.kobweb.compose.ui.modifiers.minHeight
+import com.varabyte.kobweb.compose.ui.modifiers.opacity
 import com.varabyte.kobweb.compose.ui.modifiers.padding
+import com.varabyte.kobweb.compose.ui.modifiers.textShadow
 import com.varabyte.kobweb.compose.ui.modifiers.width
 import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.Page
+import org.jetbrains.compose.web.css.AlignItems
+import org.jetbrains.compose.web.css.DisplayStyle
+import org.jetbrains.compose.web.css.FlexDirection
+import org.jetbrains.compose.web.css.em
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.css.rgba
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.P
@@ -86,11 +103,10 @@ fun HomePage() {
                                 .fontSize(220.px)
                                 .fontWeight(FontWeight.Black)
                                 .color(GalaxyTheme.lavender)
-                                .styleModifier {
-                                    property("line-height", "0.9")
-                                    property("opacity", "0.92")
-                                    property("text-shadow", "0 0 34px rgba(164, 144, 194, 0.45)")
-                                }.toAttrs(),
+                                .lineHeight(0.9)
+                                .opacity(0.92)
+                                .textShadow(TextShadow.of(0.px, 0.px, 34.px, color = rgba(164, 144, 194, .45f)))
+                                .toAttrs(),
                     ) {
                         Text("?")
                     }
@@ -106,10 +122,9 @@ fun HomePage() {
                             Modifier
                                 .fontWeight(FontWeight.Black)
                                 .fontSize(44.px)
-                                .styleModifier {
-                                    property("letter-spacing", "0.02em")
-                                    property("margin", "0")
-                                }.toAttrs(),
+                                .letterSpacing(.02.em)
+                                .margin(0.px)
+                                .toAttrs(),
                     ) {
                         Text("TODAY")
                     }
@@ -119,11 +134,10 @@ fun HomePage() {
                             Modifier
                                 .color(GalaxyTheme.textSecondary)
                                 .fontSize(14.px)
-                                .styleModifier {
-                                    property("margin", "0")
-                                    property("font-weight", "350")
-                                    property("letter-spacing", "0.02em")
-                                }.toAttrs(),
+                                .margin(0.px)
+                                .fontWeight(350)
+                                .letterSpacing(.02.em)
+                                .toAttrs(),
                     ) {
                         Text(today)
                     }
@@ -133,12 +147,12 @@ fun HomePage() {
                             Modifier
                                 .width(100.percent)
                                 .padding(top = GalaxyTheme.s(2))
+                                .display(DisplayStyle.Grid)
                                 .styleModifier {
-                                    property("display", "grid")
                                     property("grid-template-columns", "repeat(auto-fit, minmax(260px, 1fr))")
-                                    property("gap", "16px")
-                                    property("align-items", "start")
-                                }.toAttrs(),
+                                }.gap(16.px)
+                                .alignItems(AlignItems.Start)
+                                .toAttrs(),
                     ) {
                         entries.forEach { entry ->
                             val isFocused = focusedEntryId == entry.id
@@ -146,12 +160,11 @@ fun HomePage() {
                                 attrs =
                                     GalaxyTheme
                                         .interactivePanel(isFocused)
-                                        .styleModifier {
-                                            property("min-height", "200px")
-                                            property("display", "flex")
-                                            property("flex-direction", "column")
-                                            property("justify-content", "space-between")
-                                        }.toAttrs {
+                                        .minHeight(200.px)
+                                        .display(DisplayStyle.Flex)
+                                        .flexDirection(FlexDirection.Column)
+                                        .justifyContent(JustifyContent.SpaceBetween)
+                                        .toAttrs {
                                             onMouseEnter { focusedEntryId = entry.id }
                                         },
                             ) {
@@ -172,11 +185,10 @@ private fun EntryCardContent(entry: Entry) {
             attrs =
                 Modifier
                     .fontWeight(FontWeight.Bold)
-                    .styleModifier {
-                        property("margin", "0")
-                        property("font-size", "15px")
-                        property("letter-spacing", "0.02em")
-                    }.toAttrs(),
+                    .margin(0.px)
+                    .fontSize(15.px)
+                    .letterSpacing(.02.em)
+                    .toAttrs(),
         ) {
             Text(entry.author)
         }
@@ -184,24 +196,22 @@ private fun EntryCardContent(entry: Entry) {
             attrs =
                 Modifier
                     .color(GalaxyTheme.textSecondary)
-                    .styleModifier {
-                        property("margin", "0")
-                        property("font-size", "13px")
-                        property("font-weight", "350")
-                        property("letter-spacing", "0.04em")
-                    }.toAttrs(),
+                    .margin(0.px)
+                    .fontSize(13.px)
+                    .fontWeight(350)
+                    .letterSpacing(.04.em)
+                    .toAttrs(),
         ) {
             Text(entry.date)
         }
         P(
             attrs =
                 Modifier
-                    .styleModifier {
-                        property("margin", "0")
-                        property("font-size", "15px")
-                        property("font-weight", "350")
-                        property("line-height", "1.5")
-                    }.toAttrs(),
+                    .margin(0.px)
+                    .fontSize(15.px)
+                    .fontWeight(350)
+                    .lineHeight(1.5)
+                    .toAttrs(),
         ) {
             Text(entry.text)
         }
@@ -210,12 +220,11 @@ private fun EntryCardContent(entry: Entry) {
                 attrs =
                     Modifier
                         .color(GalaxyTheme.lavender)
-                        .styleModifier {
-                            property("margin", "0")
-                            property("font-size", "13px")
-                            property("font-weight", "500")
-                            property("letter-spacing", "0.01em")
-                        }.toAttrs(),
+                        .margin(0.px)
+                        .fontSize(13.px)
+                        .fontWeight(500)
+                        .letterSpacing(.01.em)
+                        .toAttrs(),
             ) {
                 Text("♪ ${song.name} — ${song.artists.joinToString { it.name }}")
             }
