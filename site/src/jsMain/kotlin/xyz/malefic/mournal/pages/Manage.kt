@@ -17,10 +17,18 @@ import com.varabyte.kobweb.compose.ui.modifiers.border
 import com.varabyte.kobweb.compose.ui.modifiers.borderRadius
 import com.varabyte.kobweb.compose.ui.modifiers.color
 import com.varabyte.kobweb.compose.ui.modifiers.cursor
+import com.varabyte.kobweb.compose.ui.modifiers.display
+import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
 import com.varabyte.kobweb.compose.ui.modifiers.fontSize
 import com.varabyte.kobweb.compose.ui.modifiers.fontWeight
 import com.varabyte.kobweb.compose.ui.modifiers.gap
+import com.varabyte.kobweb.compose.ui.modifiers.letterSpacing
+import com.varabyte.kobweb.compose.ui.modifiers.lineHeight
+import com.varabyte.kobweb.compose.ui.modifiers.margin
+import com.varabyte.kobweb.compose.ui.modifiers.minHeight
 import com.varabyte.kobweb.compose.ui.modifiers.padding
+import com.varabyte.kobweb.compose.ui.modifiers.transform
+import com.varabyte.kobweb.compose.ui.modifiers.transition
 import com.varabyte.kobweb.compose.ui.modifiers.width
 import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.compose.ui.toAttrs
@@ -28,7 +36,12 @@ import com.varabyte.kobweb.core.Page
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.attributes.placeholder
+import org.jetbrains.compose.web.css.AnimationTimingFunction
+import org.jetbrains.compose.web.css.Color
+import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.LineStyle
+import org.jetbrains.compose.web.css.em
+import org.jetbrains.compose.web.css.ms
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Button
@@ -104,10 +117,9 @@ fun ManagePage() {
                     Modifier
                         .fontWeight(FontWeight.Black)
                         .fontSize(40.px)
-                        .styleModifier {
-                            property("margin", "0")
-                            property("letter-spacing", "0.02em")
-                        }.toAttrs(),
+                        .margin(0.px)
+                        .letterSpacing(.02.em)
+                        .toAttrs(),
             ) {
                 Text("MANAGE")
             }
@@ -148,7 +160,7 @@ fun ManagePage() {
                     attrs =
                         Modifier
                             .color(GalaxyTheme.textSecondary)
-                            .styleModifier { property("font-weight", "350") }
+                            .fontWeight(350)
                             .toAttrs(),
                 ) {
                     Text("Provide an API key to unlock create, edit, and delete.")
@@ -160,10 +172,9 @@ fun ManagePage() {
                             attrs =
                                 Modifier
                                     .fontWeight(FontWeight.Bold)
-                                    .styleModifier {
-                                        property("margin", "0 0 8px 0")
-                                        property("font-size", "18px")
-                                    }.toAttrs(),
+                                    .margin(0.px, 0.px, 8.px, 0.px)
+                                    .fontSize(18.px)
+                                    .toAttrs(),
                         ) {
                             Text(if (editingEntryId == null) "Create Entry" else "Edit #$editingEntryId")
                         }
@@ -181,7 +192,7 @@ fun ManagePage() {
                         TextArea(
                             attrs =
                                 inputFieldModifier()
-                                    .styleModifier { property("min-height", "120px") }
+                                    .minHeight(120.px)
                                     .toAttrs {
                                         placeholder("Entry text")
                                         value(formText)
@@ -243,11 +254,11 @@ fun ManagePage() {
                     attrs =
                         Modifier
                             .width(100.percent)
+                            .display(DisplayStyle.Grid)
                             .styleModifier {
-                                property("display", "grid")
                                 property("grid-template-columns", "repeat(auto-fit, minmax(280px, 1fr))")
-                                property("gap", "16px")
-                            }.toAttrs(),
+                            }.gap(16.px)
+                            .toAttrs(),
                 ) {
                     entries.asReversed().forEach { entry ->
                         val isFocused = focusedEntryId == entry.id
@@ -264,22 +275,20 @@ fun ManagePage() {
                                     attrs =
                                         Modifier
                                             .fontWeight(FontWeight.Bold)
-                                            .styleModifier {
-                                                property("margin", "0")
-                                                property("font-size", "14px")
-                                            }.toAttrs(),
+                                            .margin(0.px)
+                                            .fontSize(14.px)
+                                            .toAttrs(),
                                 ) {
                                     Text("${entry.author} · ${entry.date} · #${entry.id}")
                                 }
                                 P(
                                     attrs =
                                         Modifier
-                                            .styleModifier {
-                                                property("margin", "0")
-                                                property("font-size", "14px")
-                                                property("font-weight", "350")
-                                                property("line-height", "1.45")
-                                            }.toAttrs(),
+                                            .margin(0.px)
+                                            .fontSize(14.px)
+                                            .fontWeight(350)
+                                            .lineHeight(1.45)
+                                            .toAttrs(),
                                 ) {
                                     Text(entry.text)
                                 }
@@ -318,7 +327,7 @@ fun ManagePage() {
                     attrs =
                         Modifier
                             .color(GalaxyTheme.lavender)
-                            .styleModifier { property("font-size", "13px") }
+                            .fontSize(13.px)
                             .toAttrs(),
                 ) { Text(it) }
             }
@@ -326,10 +335,8 @@ fun ManagePage() {
                 P(
                     attrs =
                         Modifier
-                            .color(
-                                org.jetbrains.compose.web.css
-                                    .Color("#ff9ea5"),
-                            ).styleModifier { property("font-size", "13px") }
+                            .color(Color("#ff9ea5"))
+                            .fontSize(13.px)
                             .toAttrs(),
                 ) { Text("Error: $it") }
             }
@@ -349,9 +356,8 @@ private fun ActionButton(
         attrs =
             GalaxyTheme
                 .actionButtonModifier(isPrimary)
-                .styleModifier {
-                    property("transform", if (hovered) "scale(1.06)" else "scale(0.92)")
-                }.toAttrs {
+                .transform { if (hovered) scale(1.06) else scale(0.92) }
+                .toAttrs {
                     onMouseEnter { hovered = true }
                     onMouseLeave { hovered = false }
                     onClick { onClick() }
@@ -364,18 +370,17 @@ private fun ActionButton(
 private fun inputFieldModifier(): Modifier =
     Modifier
         .width(100.percent)
-        .background(
-            org.jetbrains.compose.web.css
-                .Color("#0f1528"),
-        ).border(1.px, LineStyle.Solid, GalaxyTheme.panelBorder)
+        .background(Color("#0f1528"))
+        .border(1.px, LineStyle.Solid, GalaxyTheme.panelBorder)
         .borderRadius(6.px)
         .padding(GalaxyTheme.s(2))
         .color(GalaxyTheme.textPrimary)
         .cursor(com.varabyte.kobweb.compose.css.Cursor.Text)
-        .styleModifier {
-            property("font-family", "'Inter', 'Avenir Next', 'Segoe UI', sans-serif")
-            property("font-size", "14px")
-            property("font-weight", "350")
-            property("transition", "border-color 180ms ease, transform 180ms ease")
-            property("transform", "scale(0.98)")
-        }
+        .fontFamily("Inter", "Avenir Next", "Segoe UI", "sans-serif")
+        .fontSize(14.px)
+        .fontWeight(350)
+        .transition {
+            property("border-color", "transform")
+            duration(180.ms)
+            timingFunction(AnimationTimingFunction.Ease)
+        }.transform { scale(0.98) }
