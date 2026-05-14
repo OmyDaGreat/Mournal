@@ -43,8 +43,8 @@ import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.Input
 import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
-import xyz.malefic.mournal.data.DailyMaleficApi
-import xyz.malefic.mournal.data.Entry
+import xyz.malefic.mournal.api.DailyMaleficApi
+import xyz.malefic.mournal.api.Entry
 import xyz.malefic.mournal.styles.GalaxyTheme
 
 @Page("/search")
@@ -54,7 +54,7 @@ fun SearchPage() {
     var query by mutableStateOf("")
     var isLoading by mutableStateOf(true)
     var error by mutableStateOf<String?>(null)
-    var focusedEntryId by mutableStateOf<String?>(null)
+    var focusedEntryId by mutableStateOf<Long?>(null)
 
     LaunchedEffect(Unit) {
         isLoading = true
@@ -72,7 +72,7 @@ fun SearchPage() {
             allEntries
         } else {
             allEntries.filter { entry ->
-                entry.id.lowercase().contains(normalizedQuery) ||
+                entry.id.toString().contains(normalizedQuery) ||
                     entry.author.lowercase().contains(normalizedQuery) ||
                     entry.text.lowercase().contains(normalizedQuery) ||
                     entry.date.lowercase().contains(normalizedQuery) ||

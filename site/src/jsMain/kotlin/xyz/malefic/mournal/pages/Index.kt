@@ -44,9 +44,9 @@ import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Span
 import org.jetbrains.compose.web.dom.Text
-import xyz.malefic.mournal.data.DailyMaleficApi
-import xyz.malefic.mournal.data.Entry
-import xyz.malefic.mournal.data.todayIsoDate
+import xyz.malefic.mournal.api.DailyMaleficApi
+import xyz.malefic.mournal.api.Entry
+import xyz.malefic.mournal.api.todayIsoDate
 import xyz.malefic.mournal.styles.GalaxyTheme
 
 @Page
@@ -55,7 +55,7 @@ fun HomePage() {
     var entries by mutableStateOf<List<Entry>>(emptyList())
     var error by mutableStateOf<String?>(null)
     var isLoading by mutableStateOf(true)
-    var focusedEntryId by mutableStateOf<String?>(null)
+    var focusedEntryId by mutableStateOf<Long?>(null)
     val today = todayIsoDate()
 
     LaunchedEffect(Unit) {
@@ -91,7 +91,7 @@ fun HomePage() {
                 Column(
                     GalaxyTheme.centeredColumn.padding(top = GalaxyTheme.s(2)),
                 ) {
-                    P { Text(error ?: "Unknown error") }
+                    P { Text(error!!) }
                 }
             }
 

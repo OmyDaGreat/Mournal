@@ -11,8 +11,10 @@ import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
 import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
 import com.varabyte.kobweb.compose.ui.modifiers.fontWeight
 import com.varabyte.kobweb.compose.ui.modifiers.gap
+import com.varabyte.kobweb.compose.ui.modifiers.alignItems
 import com.varabyte.kobweb.compose.ui.modifiers.letterSpacing
 import com.varabyte.kobweb.compose.ui.modifiers.maxWidth
+import com.varabyte.kobweb.compose.ui.modifiers.minHeight
 import com.varabyte.kobweb.compose.ui.modifiers.padding
 import com.varabyte.kobweb.compose.ui.modifiers.transform
 import com.varabyte.kobweb.compose.ui.modifiers.transition
@@ -25,6 +27,8 @@ import org.jetbrains.compose.web.css.em
 import org.jetbrains.compose.web.css.ms
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.css.vh
+import org.jetbrains.compose.web.css.AlignItems
 
 object GalaxyTheme {
     val deepPurple = Color("#2b1e3e")
@@ -44,6 +48,7 @@ object GalaxyTheme {
     val pageFrame =
         Modifier
             .fillMaxSize()
+            .minHeight(100.vh)
             .background(pageBackground)
             .padding(s(4))
 
@@ -51,6 +56,7 @@ object GalaxyTheme {
         Modifier
             .width(100.percent)
             .maxWidth(1120.px)
+            .alignItems(AlignItems.Center)
             .gap(s(2))
 
     val panelModifier =

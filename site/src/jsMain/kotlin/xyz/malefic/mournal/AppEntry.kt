@@ -2,6 +2,7 @@ package xyz.malefic.mournal
 
 import androidx.compose.runtime.Composable
 import com.varabyte.kobweb.compose.ui.modifiers.minHeight
+import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
 import com.varabyte.kobweb.compose.ui.modifiers.background
 import com.varabyte.kobweb.compose.ui.modifiers.color
 import com.varabyte.kobweb.core.App
@@ -24,7 +25,7 @@ val AppSurfaceStyle =
 @Composable
 fun AppEntry(content: @Composable () -> Unit) {
     SilkApp {
-        Surface(AppSurfaceStyle.toModifier().minHeight(100.vh)) {
+        Surface(AppSurfaceStyle.toModifier().fillMaxSize().minHeight(100.vh)) {
             content()
         }
     }

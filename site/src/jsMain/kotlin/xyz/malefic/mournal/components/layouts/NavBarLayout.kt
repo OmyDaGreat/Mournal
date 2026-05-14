@@ -31,6 +31,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.height
 import com.varabyte.kobweb.compose.ui.modifiers.justifyContent
 import com.varabyte.kobweb.compose.ui.modifiers.letterSpacing
 import com.varabyte.kobweb.compose.ui.modifiers.lineHeight
+import com.varabyte.kobweb.compose.ui.modifiers.minHeight
 import com.varabyte.kobweb.compose.ui.modifiers.padding
 import com.varabyte.kobweb.compose.ui.modifiers.transform
 import com.varabyte.kobweb.compose.ui.modifiers.transition
@@ -49,6 +50,7 @@ import org.jetbrains.compose.web.css.em
 import org.jetbrains.compose.web.css.ms
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.rgba
+import org.jetbrains.compose.web.css.vh
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Text
 import xyz.malefic.mournal.styles.GalaxyTheme
@@ -61,10 +63,15 @@ fun NavBarLayout(content: @Composable () -> Unit) {
     val currentRoute = ctx.route.path
     var focusedRoute by mutableStateOf(currentRoute.ifBlank { "/" })
 
-    Row(Modifier.fillMaxSize()) {
+    Row(
+        Modifier
+            .fillMaxSize()
+            .minHeight(100.vh),
+    ) {
         Box(
             Modifier
                 .fillMaxHeight()
+                .minHeight(100.vh)
                 .width(72.px)
                 .background(Color("#090f1d"))
                 .border(1.px, LineStyle.Solid, Color("#242d4a"))
