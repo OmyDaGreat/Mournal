@@ -216,7 +216,7 @@ private fun EntryCardContent(entry: Entry) {
                         .letterSpacing(.01.em)
                         .toAttrs(),
             ) {
-                Text("♪ ${song.name} — ${song.artists.joinToString { it.name }}")
+                Text("♪ ${song.name} — ${song.artists.joinToString{ it.name }.replaceAfterLast(", ", " & ${entry.song.artists.last()}")}")
             }
         }
     }
