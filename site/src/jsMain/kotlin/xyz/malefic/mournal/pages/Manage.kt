@@ -57,7 +57,7 @@ import xyz.malefic.mournal.api.EntryPayload
 import xyz.malefic.mournal.api.MainApi
 import xyz.malefic.mournal.api.readSavedApiKey
 import xyz.malefic.mournal.api.saveApiKey
-import xyz.malefic.mournal.api.todayIsoDate
+import xyz.malefic.mournal.api.todayDate
 import xyz.malefic.mournal.styles.GalaxyTheme
 
 @Page("/manage")
@@ -75,14 +75,14 @@ fun ManagePage() {
     var editingEntryId by mutableStateOf<Long?>(null)
     var formAuthor by mutableStateOf("")
     var formText by mutableStateOf("")
-    var formDate by mutableStateOf(todayIsoDate())
+    var formDate by mutableStateOf(todayDate())
     var formSongQuery by mutableStateOf("")
 
     fun resetForm() {
         editingEntryId = null
         formAuthor = ""
         formText = ""
-        formDate = todayIsoDate()
+        formDate = todayDate()
         formSongQuery = ""
     }
 

@@ -46,7 +46,7 @@ import org.jetbrains.compose.web.dom.Span
 import org.jetbrains.compose.web.dom.Text
 import xyz.malefic.mournal.api.Entry
 import xyz.malefic.mournal.api.MainApi
-import xyz.malefic.mournal.api.todayIsoDate
+import xyz.malefic.mournal.api.todayDate
 import xyz.malefic.mournal.styles.GalaxyTheme
 
 @Page
@@ -56,7 +56,7 @@ fun HomePage() {
     var error by mutableStateOf<String?>(null)
     var isLoading by mutableStateOf(true)
     var focusedEntryId by mutableStateOf<Long?>(null)
-    val today = todayIsoDate()
+    val today = todayDate()
 
     LaunchedEffect(Unit) {
         isLoading = true

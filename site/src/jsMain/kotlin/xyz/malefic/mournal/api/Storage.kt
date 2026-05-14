@@ -16,4 +16,10 @@ fun saveApiKey(apiKey: String) {
     }
 }
 
-fun todayIsoDate(): String = Date().toISOString().slice(0..9)
+fun todayDate(): String =
+    Date().let {
+        val year = it.getFullYear()
+        val month = it.getMonth() + 1
+        val day = it.getDate()
+        "$year-$month-$day"
+    }
