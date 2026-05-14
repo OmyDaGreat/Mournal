@@ -43,8 +43,8 @@ import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.Input
 import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
-import xyz.malefic.mournal.api.DailyMaleficApi
 import xyz.malefic.mournal.api.Entry
+import xyz.malefic.mournal.api.MainApi
 import xyz.malefic.mournal.styles.GalaxyTheme
 
 @Page("/search")
@@ -60,7 +60,7 @@ fun SearchPage() {
         isLoading = true
         error = null
         allEntries =
-            runCatching { DailyMaleficApi.getHistory() }
+            runCatching { MainApi.getHistory() }
                 .onFailure { error = it.message ?: "Could not load history." }
                 .getOrDefault(emptyList())
         isLoading = false

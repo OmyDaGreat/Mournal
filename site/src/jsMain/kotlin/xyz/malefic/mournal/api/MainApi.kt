@@ -3,7 +3,7 @@ package xyz.malefic.mournal.api
 import kotlin.js.JSON
 import kotlin.js.json
 
-object DailyMaleficApi {
+object MainApi {
     suspend fun getEntriesForDate(date: String): List<Entry> = getEntries("${DAILY_MALEFIC_BASE_URL}/entry?date=$date")
 
     suspend fun getHistory(): List<Entry> = getEntries("${DAILY_MALEFIC_BASE_URL}/entry/history")
@@ -31,7 +31,6 @@ object DailyMaleficApi {
             )
         return when (response.status) {
             200 -> parseEntry(response.body)
-            204, 404 -> null
             else -> throwApiError(response.status, response.body)
         }
     }
@@ -49,7 +48,7 @@ object DailyMaleficApi {
                 apiKey = apiKey,
             )
         when (response.status) {
-            200, 204, 404 -> Unit
+            200, 204 -> Unit
             else -> throwApiError(response.status, response.body)
         }
     }
@@ -59,12 +58,15 @@ private suspend fun getEntries(url: String): List<Entry> {
     val response = request(url)
     return when (response.status) {
         200 -> parseEntries(response.body)
-        204, 404 -> emptyList()
+        204 -> emptyList()
         else -> throwApiError(response.status, response.body)
     }
 }
 
-private fun throwApiError(status: Int, body: String): Nothing {
+private fun throwApiError(
+    status: Int,
+    body: String,
+): Nothing {
     val fallback = "Request failed ($status)"
     throw IllegalStateException(body.ifBlank { fallback })
 }

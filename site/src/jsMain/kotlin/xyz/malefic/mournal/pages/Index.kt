@@ -44,8 +44,8 @@ import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Span
 import org.jetbrains.compose.web.dom.Text
-import xyz.malefic.mournal.api.DailyMaleficApi
 import xyz.malefic.mournal.api.Entry
+import xyz.malefic.mournal.api.MainApi
 import xyz.malefic.mournal.api.todayIsoDate
 import xyz.malefic.mournal.styles.GalaxyTheme
 
@@ -62,7 +62,7 @@ fun HomePage() {
         isLoading = true
         error = null
         entries =
-            runCatching { DailyMaleficApi.getEntriesForDate(today) }
+            runCatching { MainApi.getEntriesForDate(today) }
                 .onFailure { error = it.message ?: "Could not load today's entries." }
                 .getOrDefault(emptyList())
         isLoading = false

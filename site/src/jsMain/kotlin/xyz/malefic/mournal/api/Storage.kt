@@ -2,6 +2,7 @@ package xyz.malefic.mournal.api
 
 import kotlinx.browser.window
 import org.w3c.dom.get
+import kotlin.js.Date
 
 private const val API_KEY_STORAGE_KEY = "mournal.api.key"
 
@@ -15,4 +16,4 @@ fun saveApiKey(apiKey: String) {
     }
 }
 
-fun todayIsoDate(): String = js("new Date().toISOString().slice(0, 10)") as String
+fun todayIsoDate(): String = Date().toISOString().slice(0..9)

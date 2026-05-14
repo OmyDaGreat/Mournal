@@ -52,9 +52,9 @@ import org.jetbrains.compose.web.dom.Input
 import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.dom.TextArea
-import xyz.malefic.mournal.api.DailyMaleficApi
 import xyz.malefic.mournal.api.Entry
 import xyz.malefic.mournal.api.EntryPayload
+import xyz.malefic.mournal.api.MainApi
 import xyz.malefic.mournal.api.readSavedApiKey
 import xyz.malefic.mournal.api.saveApiKey
 import xyz.malefic.mournal.api.todayIsoDate
@@ -90,7 +90,7 @@ fun ManagePage() {
         scope.launch {
             error = null
             entries =
-                runCatching { DailyMaleficApi.getHistory() }
+                runCatching { MainApi.getHistory() }
                     .onFailure { error = it.message ?: "Could not load entries." }
                     .getOrDefault(emptyList())
             if (entries.isNotEmpty() && entries.none { it.id == focusedEntryId }) {
@@ -232,7 +232,7 @@ fun ManagePage() {
                                             date = formDate.trim(),
                                             songQuery = formSongQuery.trim().ifBlank { null },
                                         )
-                                    runCatching { DailyMaleficApi.upsertEntry(payload, activeApiKey.trim()) }
+                                    runCatching { MainApi.upsertEntry(payload, activeApiKey.trim()) }
                                         .onSuccess { saved ->
                                             if (saved != null) {
                                                 status = "Saved #${saved.id}."
@@ -309,7 +309,7 @@ fun ManagePage() {
                                     }
                                     ActionButton("Delete") {
                                         scope.launch {
-                                            runCatching { DailyMaleficApi.deleteEntry(entry.id, activeApiKey.trim()) }
+                                            runCatching { MainApi.deleteEntry(entry.id, activeApiKey.trim()) }
                                                 .onSuccess {
                                                     status = "Deleted #${entry.id}."
                                                     if (editingEntryId == entry.id) resetForm()
