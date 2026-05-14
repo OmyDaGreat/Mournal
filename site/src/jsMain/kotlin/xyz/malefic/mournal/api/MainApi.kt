@@ -1,9 +1,10 @@
 package xyz.malefic.mournal.api
 
-import kotlin.js.JSON
 import kotlin.js.json
 
 object MainApi {
+    suspend fun getLatestEntries(): List<Entry> = getEntries("${DAILY_MALEFIC_BASE_URL}/entry")
+
     suspend fun getEntriesForDate(date: String): List<Entry> = getEntries("${DAILY_MALEFIC_BASE_URL}/entry?date=$date")
 
     suspend fun getHistory(): List<Entry> = getEntries("${DAILY_MALEFIC_BASE_URL}/entry/history")

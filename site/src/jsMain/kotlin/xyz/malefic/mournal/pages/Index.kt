@@ -46,7 +46,6 @@ import org.jetbrains.compose.web.dom.Span
 import org.jetbrains.compose.web.dom.Text
 import xyz.malefic.mournal.api.Entry
 import xyz.malefic.mournal.api.MainApi
-import xyz.malefic.mournal.api.todayDate
 import xyz.malefic.mournal.styles.GalaxyTheme
 
 @Page
@@ -56,14 +55,13 @@ fun HomePage() {
     var error by mutableStateOf<String?>(null)
     var isLoading by mutableStateOf(true)
     var focusedEntryId by mutableStateOf<Long?>(null)
-    val today = todayDate()
 
     LaunchedEffect(Unit) {
         isLoading = true
         error = null
         entries =
-            runCatching { MainApi.getEntriesForDate(today) }
-                .onFailure { error = it.message ?: "Could not load today's entries." }
+            runCatching { MainApi.getLatestEntries() }
+                .onFailure { error = "Could not load the latest entries: ${it.message}" }
                 .getOrDefault(emptyList())
         isLoading = false
     }
@@ -118,7 +116,7 @@ fun HomePage() {
                                 .margin(0.px)
                                 .toAttrs(),
                     ) {
-                        Text("TODAY")
+                        Text("LATEST ENTRIES")
                     }
 
                     P(
@@ -131,7 +129,7 @@ fun HomePage() {
                                 .letterSpacing(.02.em)
                                 .toAttrs(),
                     ) {
-                        Text(today)
+                        Text(entries.first().date)
                     }
 
                     Div(
