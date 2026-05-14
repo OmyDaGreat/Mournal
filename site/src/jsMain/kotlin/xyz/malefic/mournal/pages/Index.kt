@@ -79,14 +79,6 @@ fun HomePage() {
         contentAlignment = Alignment.TopCenter,
     ) {
         when {
-            isLoading -> {
-                Column(
-                    GalaxyTheme.centeredColumn.padding(top = GalaxyTheme.s(2)),
-                ) {
-                    P { Text("Loading today's transmissions...") }
-                }
-            }
-
             error != null -> {
                 Column(
                     GalaxyTheme.centeredColumn.padding(top = GalaxyTheme.s(2)),
@@ -95,7 +87,7 @@ fun HomePage() {
                 }
             }
 
-            entries.isEmpty() -> {
+            isLoading || entries.isEmpty() -> {
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Span(
                         attrs =
