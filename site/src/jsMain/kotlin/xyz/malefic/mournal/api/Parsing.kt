@@ -5,18 +5,18 @@ import kotlin.js.JSON
 internal fun parseEntries(rawResponse: String): List<Entry> {
     val payload = JSON.parse<dynamic>(rawResponse)
     return if (js("Array.isArray(payload)") as Boolean) {
-        (payload as Array<dynamic>).map { parseEntry(it) }
+        (payload as Array<dynamic>).map { parseEntryPayload(it) }
     } else {
-        listOf(parseEntry(payload))
+        listOf(parseEntryPayload(payload))
     }
 }
 
 internal fun parseEntry(rawResponse: String): Entry {
     val payload = JSON.parse<dynamic>(rawResponse)
-    return parseEntry(payload)
+    return parseEntryPayload(payload)
 }
 
-private fun parseEntry(raw: dynamic): Entry =
+private fun parseEntryPayload(raw: dynamic): Entry =
     Entry(
         id = parseRequiredLong(raw.id, "id"),
         author = raw.author?.toString() ?: "",
