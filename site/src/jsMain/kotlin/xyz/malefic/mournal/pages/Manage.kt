@@ -226,7 +226,7 @@ fun ManagePage() {
                                     status = null
                                     val payload =
                                         EntryPayload(
-                                            id = editingEntryId,
+                                            id = editingEntryId?.toString(),
                                             author = formAuthor.trim(),
                                             text = formText.trim(),
                                             date = formDate.trim(),

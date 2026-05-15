@@ -40,7 +40,7 @@ object MainApi {
         id: Long,
         apiKey: String,
     ) {
-        val body = JSON.stringify(json("id" to id))
+        val body = JSON.stringify(json("id" to id.toString()))
         val response =
             request(
                 url = "${DAILY_MALEFIC_BASE_URL}/entry",

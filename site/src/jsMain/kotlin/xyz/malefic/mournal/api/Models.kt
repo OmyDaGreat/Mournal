@@ -22,7 +22,7 @@ data class Entry(
 )
 
 data class EntryPayload(
-    val id: Long? = null,
+    val id: String? = null,
     val author: String,
     val text: String,
     val date: String,
