@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.foundation.layout.Box
@@ -50,11 +51,11 @@ import xyz.malefic.mournal.styles.GalaxyTheme
 @Page("/search")
 @Composable
 fun SearchPage() {
-    var allEntries by mutableStateOf<List<Entry>>(emptyList())
-    var query by mutableStateOf("")
-    var isLoading by mutableStateOf(true)
-    var error by mutableStateOf<String?>(null)
-    var focusedEntryId by mutableStateOf<Long?>(null)
+    var allEntries by remember { mutableStateOf<List<Entry>>(emptyList()) }
+    var query by remember { mutableStateOf("") }
+    var isLoading by remember { mutableStateOf(true) }
+    var error by remember { mutableStateOf<String?>(null) }
+    var focusedEntryId by remember { mutableStateOf<Long?>(null) }
 
     LaunchedEffect(Unit) {
         isLoading = true

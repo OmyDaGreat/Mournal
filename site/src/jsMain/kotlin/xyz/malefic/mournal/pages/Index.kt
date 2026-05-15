@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.JustifyContent
@@ -54,10 +55,10 @@ import kotlin.time.Duration.Companion.seconds
 @Page
 @Composable
 fun HomePage() {
-    var entries by mutableStateOf<List<Entry>>(emptyList())
-    var error by mutableStateOf<String?>(null)
-    var isLoading by mutableStateOf(true)
-    var focusedEntryId by mutableStateOf<Long?>(null)
+    var entries by remember { mutableStateOf<List<Entry>>(emptyList()) }
+    var error by remember { mutableStateOf<String?>(null) }
+    var isLoading by remember { mutableStateOf(true) }
+    var focusedEntryId by remember { mutableStateOf<Long?>(null) }
 
     LaunchedEffect(Unit) {
         isLoading = true

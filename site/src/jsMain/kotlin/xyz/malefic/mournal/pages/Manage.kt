@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.varabyte.kobweb.compose.css.FontWeight
@@ -65,18 +66,18 @@ import xyz.malefic.mournal.styles.GalaxyTheme
 fun ManagePage() {
     val scope = rememberCoroutineScope()
 
-    var apiKeyDraft by mutableStateOf(readSavedApiKey())
-    var activeApiKey by mutableStateOf(readSavedApiKey())
-    var entries by mutableStateOf<List<Entry>>(emptyList())
-    var status by mutableStateOf<String?>(null)
-    var error by mutableStateOf<String?>(null)
-    var focusedEntryId by mutableStateOf<Long?>(null)
+    var apiKeyDraft by remember { mutableStateOf(readSavedApiKey()) }
+    var activeApiKey by remember { mutableStateOf(readSavedApiKey()) }
+    var entries by remember { mutableStateOf<List<Entry>>(emptyList()) }
+    var status by remember { mutableStateOf<String?>(null) }
+    var error by remember { mutableStateOf<String?>(null) }
+    var focusedEntryId by remember { mutableStateOf<Long?>(null) }
 
-    var editingEntryId by mutableStateOf<Long?>(null)
-    var formAuthor by mutableStateOf("")
-    var formText by mutableStateOf("")
-    var formDate by mutableStateOf(todayDate())
-    var formSongQuery by mutableStateOf("")
+    var editingEntryId by remember { mutableStateOf<Long?>(null) }
+    var formAuthor by remember { mutableStateOf("") }
+    var formText by remember { mutableStateOf("") }
+    var formDate by remember { mutableStateOf(todayDate()) }
+    var formSongQuery by remember { mutableStateOf("") }
 
     fun resetForm() {
         editingEntryId = null
@@ -354,7 +355,7 @@ private fun ActionButton(
     isPrimary: Boolean = false,
     onClick: () -> Unit,
 ) {
-    var hovered by mutableStateOf(false)
+    var hovered by remember { mutableStateOf(false) }
 
     Button(
         attrs =

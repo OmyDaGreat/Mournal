@@ -3,6 +3,7 @@ package xyz.malefic.mournal.components.layouts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.varabyte.kobweb.compose.css.BoxShadow
 import com.varabyte.kobweb.compose.css.Cursor
@@ -61,7 +62,7 @@ import xyz.malefic.mournal.util.Pages
 fun NavBarLayout(content: @Composable () -> Unit) {
     val ctx = rememberPageContext()
     val currentRoute = ctx.route.path
-    var focusedRoute by mutableStateOf(currentRoute.ifBlank { "/" })
+    var focusedRoute by remember(currentRoute) { mutableStateOf(currentRoute.ifBlank { "/" }) }
 
     Row(
         Modifier
