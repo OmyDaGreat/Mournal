@@ -32,6 +32,8 @@ import com.varabyte.kobweb.compose.ui.modifiers.width
 import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.Page
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import org.jetbrains.compose.web.css.AlignItems
 import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.FlexDirection
@@ -47,6 +49,7 @@ import org.jetbrains.compose.web.dom.Text
 import xyz.malefic.mournal.api.Entry
 import xyz.malefic.mournal.api.MainApi
 import xyz.malefic.mournal.styles.GalaxyTheme
+import kotlin.time.Duration.Companion.seconds
 
 @Page
 @Composable
@@ -58,12 +61,15 @@ fun HomePage() {
 
     LaunchedEffect(Unit) {
         isLoading = true
-        error = null
-        entries =
+        while (isActive) {
             runCatching { MainApi.getLatestEntries() }
-                .onFailure { error = "Could not load the latest entries: ${it.message}" }
-                .getOrDefault(emptyList())
-        isLoading = false
+                .onSuccess {
+                    entries = it
+                    error = null
+                }.onFailure { error = "Could not load the latest entries: ${it.message}" }
+            isLoading = false
+            delay(15.seconds)
+        }
     }
 
     LaunchedEffect(entries) {
