@@ -28,6 +28,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.lineHeight
 import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.minHeight
 import com.varabyte.kobweb.compose.ui.modifiers.padding
+import com.varabyte.kobweb.compose.ui.modifiers.scale
 import com.varabyte.kobweb.compose.ui.modifiers.transform
 import com.varabyte.kobweb.compose.ui.modifiers.transition
 import com.varabyte.kobweb.compose.ui.modifiers.width
@@ -59,6 +60,8 @@ import xyz.malefic.mournal.api.MainApi
 import xyz.malefic.mournal.api.readSavedApiKey
 import xyz.malefic.mournal.api.saveApiKey
 import xyz.malefic.mournal.api.todayDate
+import xyz.malefic.mournal.components.Icon
+import xyz.malefic.mournal.components.invoke
 import xyz.malefic.mournal.styles.GalaxyTheme
 
 @Page("/manage")
@@ -221,7 +224,7 @@ fun ManagePage() {
                         )
 
                         Row(Modifier.gap(GalaxyTheme.s(1))) {
-                            ActionButton(if (editingEntryId == null) "Add Entry" else "Update Entry", isPrimary = true) {
+                            IconActionButton(if (editingEntryId == null) Icon.PLUS else Icon.UPDATE, isPrimary = true) {
                                 scope.launch {
                                     error = null
                                     status = null
@@ -247,7 +250,7 @@ fun ManagePage() {
                                         }
                                 }
                             }
-                            ActionButton("Reset") {
+                            IconActionButton(Icon.RESET) {
                                 resetForm()
                                 status = "Form reset."
                             }
@@ -299,7 +302,7 @@ fun ManagePage() {
                                 }
 
                                 Row(Modifier.gap(GalaxyTheme.s(1))) {
-                                    ActionButton("Edit") {
+                                    IconActionButton(Icon.EDIT) {
                                         editingEntryId = entry.id
                                         formAuthor = entry.author
                                         formText = entry.text
@@ -308,7 +311,7 @@ fun ManagePage() {
                                         status = "Loaded #${entry.id}."
                                         error = null
                                     }
-                                    ActionButton("Delete") {
+                                    IconActionButton(Icon.DELETE) {
                                         scope.launch {
                                             runCatching { MainApi.deleteEntry(entry.id, activeApiKey.trim()) }
                                                 .onSuccess {
@@ -369,6 +372,29 @@ private fun ActionButton(
                 },
     ) {
         Text(label)
+    }
+}
+
+@Composable
+private fun IconActionButton(
+    icon: Icon,
+    isPrimary: Boolean = false,
+    onClick: () -> Unit,
+) {
+    var hovered by remember { mutableStateOf(false) }
+
+    Button(
+        attrs =
+            GalaxyTheme
+                .actionButtonModifier(isPrimary)
+                .transform { if (hovered) scale(1.06) else scale(0.92) }
+                .toAttrs {
+                    onMouseEnter { hovered = true }
+                    onMouseLeave { hovered = false }
+                    onClick { onClick() }
+                },
+    ) {
+        icon(Modifier.scale(0.75f))
     }
 }
 

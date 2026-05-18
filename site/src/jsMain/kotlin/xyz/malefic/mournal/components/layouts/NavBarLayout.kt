@@ -53,7 +53,7 @@ import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.rgba
 import org.jetbrains.compose.web.css.vh
 import org.jetbrains.compose.web.dom.Div
-import org.jetbrains.compose.web.dom.Text
+import xyz.malefic.mournal.components.invoke
 import xyz.malefic.mournal.styles.GalaxyTheme
 import xyz.malefic.mournal.util.Pages
 
@@ -85,7 +85,6 @@ fun NavBarLayout(content: @Composable () -> Unit) {
                     val route = page.route
                     val isCurrent = page.isCurrentPage(currentRoute)
                     val isFocused = route == focusedRoute || isCurrent
-                    val shortLabel = page.value.take(1).uppercase()
 
                     Div(
                         attrs = {
@@ -125,7 +124,7 @@ fun NavBarLayout(content: @Composable () -> Unit) {
                                         Transition.of("border-color", 180.ms, AnimationTimingFunction.Ease),
                                     ),
                         ) {
-                            Text(shortLabel)
+                            page.icon()
                         }
                     }
                 }
