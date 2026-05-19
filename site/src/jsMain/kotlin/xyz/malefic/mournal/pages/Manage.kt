@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.varabyte.kobweb.compose.css.Cursor
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.borderRadius
 import com.varabyte.kobweb.compose.ui.modifiers.color
 import com.varabyte.kobweb.compose.ui.modifiers.cursor
 import com.varabyte.kobweb.compose.ui.modifiers.display
+import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
 import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
 import com.varabyte.kobweb.compose.ui.modifiers.fontSize
 import com.varabyte.kobweb.compose.ui.modifiers.fontWeight
@@ -27,6 +29,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.letterSpacing
 import com.varabyte.kobweb.compose.ui.modifiers.lineHeight
 import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.minHeight
+import com.varabyte.kobweb.compose.ui.modifiers.onMouseEnter
 import com.varabyte.kobweb.compose.ui.modifiers.padding
 import com.varabyte.kobweb.compose.ui.modifiers.scale
 import com.varabyte.kobweb.compose.ui.modifiers.transform
@@ -270,15 +273,14 @@ fun ManagePage() {
                 ) {
                     entries.asReversed().forEach { entry ->
                         val isFocused = focusedEntryId == entry.id
-                        Div(
-                            attrs =
+                        Box(
+                            modifier =
                                 GalaxyTheme
                                     .interactivePanel(isFocused)
-                                    .toAttrs {
-                                        onMouseEnter { focusedEntryId = entry.id }
-                                    },
+                                    .onMouseEnter { focusedEntryId = entry.id }
+                                    .fillMaxSize(),
                         ) {
-                            Column(Modifier.gap(GalaxyTheme.s(1))) {
+                            Column(Modifier.gap(GalaxyTheme.s(1)).fillMaxSize().padding(bottom = GalaxyTheme.s(8))) {
                                 P(
                                     attrs =
                                         Modifier
@@ -300,28 +302,28 @@ fun ManagePage() {
                                 ) {
                                     Text(entry.text)
                                 }
+                            }
 
-                                Row(Modifier.gap(GalaxyTheme.s(1))) {
-                                    IconActionButton(Icon.EDIT) {
-                                        editingEntryId = entry.id
-                                        formAuthor = entry.author
-                                        formText = entry.text
-                                        formDate = entry.date
-                                        formSongQuery = entry.song?.name ?: ""
-                                        status = "Loaded #${entry.id}."
-                                        error = null
-                                    }
-                                    IconActionButton(Icon.DELETE) {
-                                        scope.launch {
-                                            runCatching { MainApi.deleteEntry(entry.id, activeApiKey.trim()) }
-                                                .onSuccess {
-                                                    status = "Deleted #${entry.id}."
-                                                    if (editingEntryId == entry.id) resetForm()
-                                                    loadHistory()
-                                                }.onFailure {
-                                                    error = it.message ?: "Could not delete entry."
-                                                }
-                                        }
+                            Row(Modifier.gap(GalaxyTheme.s(1)).align(Alignment.BottomEnd)) {
+                                IconActionButton(Icon.EDIT) {
+                                    editingEntryId = entry.id
+                                    formAuthor = entry.author
+                                    formText = entry.text
+                                    formDate = entry.date
+                                    formSongQuery = entry.song?.name ?: ""
+                                    status = "Loaded #${entry.id}."
+                                    error = null
+                                }
+                                IconActionButton(Icon.DELETE) {
+                                    scope.launch {
+                                        runCatching { MainApi.deleteEntry(entry.id, activeApiKey.trim()) }
+                                            .onSuccess {
+                                                status = "Deleted #${entry.id}."
+                                                if (editingEntryId == entry.id) resetForm()
+                                                loadHistory()
+                                            }.onFailure {
+                                                error = it.message ?: "Could not delete entry."
+                                            }
                                     }
                                 }
                             }
@@ -383,7 +385,7 @@ private fun inputFieldModifier(): Modifier =
         .borderRadius(6.px)
         .padding(GalaxyTheme.s(2))
         .color(GalaxyTheme.textPrimary)
-        .cursor(com.varabyte.kobweb.compose.css.Cursor.Text)
+        .cursor(Cursor.Text)
         .fontFamily("Inter", "Avenir Next", "Segoe UI", "sans-serif")
         .fontSize(14.px)
         .fontWeight(350)
