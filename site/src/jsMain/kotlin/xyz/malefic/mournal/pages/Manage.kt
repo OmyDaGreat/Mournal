@@ -29,6 +29,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.lineHeight
 import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.minHeight
 import com.varabyte.kobweb.compose.ui.modifiers.onMouseEnter
+import com.varabyte.kobweb.compose.ui.modifiers.onMouseLeave
 import com.varabyte.kobweb.compose.ui.modifiers.padding
 import com.varabyte.kobweb.compose.ui.modifiers.scale
 import com.varabyte.kobweb.compose.ui.modifiers.transform
@@ -49,7 +50,6 @@ import org.jetbrains.compose.web.css.ms
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Button
-import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.H3
 import org.jetbrains.compose.web.dom.Input
@@ -99,9 +99,6 @@ fun ManagePage() {
                 runCatching { MainApi.getHistory() }
                     .onFailure { error = it.message ?: "Could not load entries." }
                     .getOrDefault(emptyList())
-            if (entries.isNotEmpty() && entries.none { it.id == focusedEntryId }) {
-                focusedEntryId = entries.first().id
-            }
         }
     }
 
@@ -114,7 +111,7 @@ fun ManagePage() {
         }
     }
 
-    Box(GalaxyTheme.pageFrame, contentAlignment = Alignment.TopCenter) {
+    Box(GalaxyTheme.pageFrame, Alignment.TopCenter) {
         Column(
             GalaxyTheme.centeredColumn.padding(top = GalaxyTheme.s(2)),
         ) {
@@ -129,7 +126,7 @@ fun ManagePage() {
                 Text("MANAGE")
             }
 
-            Div(GalaxyTheme.panelModifier.toAttrs()) {
+            Box(GalaxyTheme.panelModifier) {
                 Column(Modifier.gap(GalaxyTheme.s(1))) {
                     Input(
                         InputType.Text,
@@ -169,7 +166,7 @@ fun ManagePage() {
                     Text("Provide an API key to unlock create, edit, and delete.")
                 }
             } else {
-                Div(GalaxyTheme.panelModifier.toAttrs()) {
+                Box(GalaxyTheme.panelModifier) {
                     Column(Modifier.gap(GalaxyTheme.s(1))) {
                         H3(
                             Modifier
@@ -265,6 +262,7 @@ fun ManagePage() {
                             GalaxyTheme
                                 .interactivePanel(isFocused)
                                 .onMouseEnter { focusedEntryId = entry.id }
+                                .onMouseLeave { focusedEntryId = null }
                                 .fillMaxSize(),
                         ) {
                             Column(Modifier.gap(GalaxyTheme.s(1)).fillMaxSize().padding(bottom = GalaxyTheme.s(8))) {
