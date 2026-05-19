@@ -15,18 +15,19 @@ import com.varabyte.kobweb.silk.components.icons.mdi.MdiSearch
 import com.varabyte.kobweb.silk.components.icons.mdi.MdiUpdate
 
 enum class Icon(
+    val title: String,
     val icon: @Composable (modifier: Modifier, style: IconStyle) -> Unit,
 ) {
-    RESET({ modifier, style -> MdiRefresh(modifier, style) }),
-    EDIT({ modifier, style -> MdiEdit(modifier, style) }),
-    DELETE({ modifier, style -> MdiDelete(modifier, style) }),
-    HOME({ modifier, style -> MdiHome(modifier, style) }),
-    SEARCH({ modifier, style -> MdiSearch(modifier, style) }),
-    BUILD({ modifier, style -> MdiBuild(modifier, style) }),
-    PLUS({ modifier, style -> MdiAdd(modifier, style) }),
-    UPDATE({ modifier, style -> MdiUpdate(modifier, style) }),
-    SAVE({ modifier, style -> MdiSave(modifier, style) }),
-    BACKSPACE({ modifier, style -> MdiBackspace(modifier, style) }),
+    RESET("Reset", { modifier, style -> MdiRefresh(modifier, style) }),
+    EDIT("Edit", { modifier, style -> MdiEdit(modifier, style) }),
+    DELETE("Delete", { modifier, style -> MdiDelete(modifier, style) }),
+    HOME("Home", { modifier, style -> MdiHome(modifier, style) }),
+    SEARCH("Search", { modifier, style -> MdiSearch(modifier, style) }),
+    BUILD("Manage", { modifier, style -> MdiBuild(modifier, style) }),
+    PLUS("Add", { modifier, style -> MdiAdd(modifier, style) }),
+    UPDATE("Update", { modifier, style -> MdiUpdate(modifier, style) }),
+    SAVE("Save", { modifier, style -> MdiSave(modifier, style) }),
+    BACKSPACE("Clear", { modifier, style -> MdiBackspace(modifier, style) }),
 }
 
 @Composable

@@ -78,7 +78,7 @@ fun NavBarLayout(content: @Composable () -> Unit) {
                 .border(1.px, LineStyle.Solid, Color("#242d4a"))
                 .styleModifier { property("border-left", "none") }
                 .padding(topBottom = GalaxyTheme.s(3), leftRight = GalaxyTheme.s(1)),
-            contentAlignment = Alignment.TopCenter,
+            Alignment.TopCenter,
         ) {
             Column(Modifier.gap(GalaxyTheme.s(1)), horizontalAlignment = Alignment.CenterHorizontally) {
                 Pages.entries.forEach { page ->
@@ -94,35 +94,34 @@ fun NavBarLayout(content: @Composable () -> Unit) {
                         },
                     ) {
                         Link(
-                            path = route,
-                            modifier =
-                                Modifier
-                                    .width(48.px)
-                                    .height(48.px)
-                                    .background(if (isCurrent) Color("#202a4a") else Color("#121a31"))
-                                    .border(1.px, LineStyle.Solid, if (isFocused) Color("#a490c2") else Color("#2f3655"))
-                                    .borderRadius(6.px)
-                                    .color(if (isCurrent) Color("#f7f4ff") else Color("#d0d5ef"))
-                                    .fontWeight(if (isCurrent) 700 else 500)
-                                    .fontSize(14.px)
-                                    .cursor(Cursor.Pointer)
-                                    .display(DisplayStyle.Flex)
-                                    .alignItems(AlignItems.Center)
-                                    .justifyContent(JustifyContent.Center)
-                                    .styleModifier {
-                                        property("text-decoration", "none")
-                                    }.letterSpacing(.08.em)
-                                    .transform { if (isFocused) scale(1.08) else scale(0.88) }
-                                    .boxShadow(
-                                        BoxShadow
-                                            .of(0.px, 0.px, 0.px, 1.px, rgba(164, 144, 194, .25f))
-                                            .takeUnless { isFocused }
-                                            ?: BoxShadow.of(0.px, 6.px, 10.px, color = rgba(0, 0, 0, .28f)),
-                                    ).transition(
-                                        Transition.of("transform", 180.ms, AnimationTimingFunction.Ease),
-                                        Transition.of("box-shadow", 180.ms, AnimationTimingFunction.Ease),
-                                        Transition.of("border-color", 180.ms, AnimationTimingFunction.Ease),
-                                    ),
+                            route,
+                            Modifier
+                                .width(48.px)
+                                .height(48.px)
+                                .background(if (isCurrent) Color("#202a4a") else Color("#121a31"))
+                                .border(1.px, LineStyle.Solid, if (isFocused) Color("#a490c2") else Color("#2f3655"))
+                                .borderRadius(6.px)
+                                .color(if (isCurrent) Color("#f7f4ff") else Color("#d0d5ef"))
+                                .fontWeight(if (isCurrent) 700 else 500)
+                                .fontSize(14.px)
+                                .cursor(Cursor.Pointer)
+                                .display(DisplayStyle.Flex)
+                                .alignItems(AlignItems.Center)
+                                .justifyContent(JustifyContent.Center)
+                                .styleModifier {
+                                    property("text-decoration", "none")
+                                }.letterSpacing(.08.em)
+                                .transform { if (isFocused) scale(1.08) else scale(0.88) }
+                                .boxShadow(
+                                    BoxShadow
+                                        .of(0.px, 0.px, 0.px, 1.px, rgba(164, 144, 194, .25f))
+                                        .takeUnless { isFocused }
+                                        ?: BoxShadow.of(0.px, 6.px, 10.px, color = rgba(0, 0, 0, .28f)),
+                                ).transition(
+                                    Transition.of("transform", 180.ms, AnimationTimingFunction.Ease),
+                                    Transition.of("box-shadow", 180.ms, AnimationTimingFunction.Ease),
+                                    Transition.of("border-color", 180.ms, AnimationTimingFunction.Ease),
+                                ),
                         ) {
                             page.icon()
                         }

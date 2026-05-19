@@ -371,6 +371,7 @@ private fun IconActionButton(
                     onMouseEnter { hovered = true }
                     onMouseLeave { hovered = false }
                     onClick { onClick() }
+                    title(icon.title)
                 },
     ) {
         icon(Modifier.scale(0.75f))
