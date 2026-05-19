@@ -19,7 +19,6 @@ import com.varabyte.kobweb.compose.ui.modifiers.border
 import com.varabyte.kobweb.compose.ui.modifiers.borderRadius
 import com.varabyte.kobweb.compose.ui.modifiers.color
 import com.varabyte.kobweb.compose.ui.modifiers.cursor
-import com.varabyte.kobweb.compose.ui.modifiers.display
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
 import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
 import com.varabyte.kobweb.compose.ui.modifiers.fontSize
@@ -35,15 +34,15 @@ import com.varabyte.kobweb.compose.ui.modifiers.scale
 import com.varabyte.kobweb.compose.ui.modifiers.transform
 import com.varabyte.kobweb.compose.ui.modifiers.transition
 import com.varabyte.kobweb.compose.ui.modifiers.width
-import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.Page
+import com.varabyte.kobweb.silk.components.layout.SimpleGrid
+import com.varabyte.kobweb.silk.components.layout.numColumns
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.attributes.placeholder
 import org.jetbrains.compose.web.css.AnimationTimingFunction
 import org.jetbrains.compose.web.css.Color
-import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.em
 import org.jetbrains.compose.web.css.ms
@@ -120,28 +119,26 @@ fun ManagePage() {
             GalaxyTheme.centeredColumn.padding(top = GalaxyTheme.s(2)),
         ) {
             H1(
-                attrs =
-                    Modifier
-                        .fontWeight(FontWeight.Black)
-                        .fontSize(40.px)
-                        .margin(0.px)
-                        .letterSpacing(.02.em)
-                        .toAttrs(),
+                Modifier
+                    .fontWeight(FontWeight.Black)
+                    .fontSize(40.px)
+                    .margin(0.px)
+                    .letterSpacing(.02.em)
+                    .toAttrs(),
             ) {
                 Text("MANAGE")
             }
 
-            Div(attrs = GalaxyTheme.panelModifier.toAttrs()) {
+            Div(GalaxyTheme.panelModifier.toAttrs()) {
                 Column(Modifier.gap(GalaxyTheme.s(1))) {
                     Input(
-                        type = InputType.Text,
-                        attrs =
-                            inputFieldModifier()
-                                .toAttrs {
-                                    placeholder("X-API-Key")
-                                    value(apiKeyDraft)
-                                    onInput { event -> apiKeyDraft = event.value }
-                                },
+                        InputType.Text,
+                        inputFieldModifier()
+                            .toAttrs {
+                                placeholder("X-API-Key")
+                                value(apiKeyDraft)
+                                onInput { event -> apiKeyDraft = event.value }
+                            },
                     )
                     Row(Modifier.gap(GalaxyTheme.s(1))) {
                         IconActionButton(Icon.SAVE, isPrimary = true) {
@@ -164,37 +161,34 @@ fun ManagePage() {
 
             if (activeApiKey.isBlank()) {
                 P(
-                    attrs =
-                        Modifier
-                            .color(GalaxyTheme.textSecondary)
-                            .fontWeight(350)
-                            .toAttrs(),
+                    Modifier
+                        .color(GalaxyTheme.textSecondary)
+                        .fontWeight(350)
+                        .toAttrs(),
                 ) {
                     Text("Provide an API key to unlock create, edit, and delete.")
                 }
             } else {
-                Div(attrs = GalaxyTheme.panelModifier.toAttrs()) {
+                Div(GalaxyTheme.panelModifier.toAttrs()) {
                     Column(Modifier.gap(GalaxyTheme.s(1))) {
                         H3(
-                            attrs =
-                                Modifier
-                                    .fontWeight(FontWeight.Bold)
-                                    .margin(0.px, 0.px, 8.px, 0.px)
-                                    .fontSize(18.px)
-                                    .toAttrs(),
+                            Modifier
+                                .fontWeight(FontWeight.Bold)
+                                .margin(0.px, 0.px, 8.px, 0.px)
+                                .fontSize(18.px)
+                                .toAttrs(),
                         ) {
                             Text(if (editingEntryId == null) "Create Entry" else "Edit #$editingEntryId")
                         }
 
                         Input(
-                            type = InputType.Text,
-                            attrs =
-                                inputFieldModifier()
-                                    .toAttrs {
-                                        placeholder("Author")
-                                        value(formAuthor)
-                                        onInput { event -> formAuthor = event.value }
-                                    },
+                            InputType.Text,
+                            inputFieldModifier()
+                                .toAttrs {
+                                    placeholder("Author")
+                                    value(formAuthor)
+                                    onInput { event -> formAuthor = event.value }
+                                },
                         )
                         TextArea(
                             attrs =
@@ -207,23 +201,21 @@ fun ManagePage() {
                                     },
                         )
                         Input(
-                            type = InputType.Date,
-                            attrs =
-                                inputFieldModifier()
-                                    .toAttrs {
-                                        value(formDate)
-                                        onInput { event -> formDate = event.value }
-                                    },
+                            InputType.Date,
+                            inputFieldModifier()
+                                .toAttrs {
+                                    value(formDate)
+                                    onInput { event -> formDate = event.value }
+                                },
                         )
                         Input(
-                            type = InputType.Text,
-                            attrs =
-                                inputFieldModifier()
-                                    .toAttrs {
-                                        placeholder("Song query (optional)")
-                                        value(formSongQuery)
-                                        onInput { event -> formSongQuery = event.value }
-                                    },
+                            InputType.Text,
+                            inputFieldModifier()
+                                .toAttrs {
+                                    placeholder("Song query (optional)")
+                                    value(formSongQuery)
+                                    onInput { event -> formSongQuery = event.value }
+                                },
                         )
 
                         Row(Modifier.gap(GalaxyTheme.s(1))) {
@@ -261,44 +253,37 @@ fun ManagePage() {
                     }
                 }
 
-                Div(
-                    attrs =
-                        Modifier
-                            .width(100.percent)
-                            .display(DisplayStyle.Grid)
-                            .styleModifier {
-                                property("grid-template-columns", "repeat(auto-fit, minmax(280px, 1fr))")
-                            }.gap(16.px)
-                            .toAttrs(),
+                val availableCols = entries.size.coerceAtLeast(1)
+
+                SimpleGrid(
+                    numColumns(base = 1, sm = minOf(2, availableCols), lg = minOf(3, availableCols), xl = minOf(4, availableCols)),
+                    modifier = Modifier.width(100.percent).gap(16.px),
                 ) {
                     entries.asReversed().forEach { entry ->
                         val isFocused = focusedEntryId == entry.id
                         Box(
-                            modifier =
-                                GalaxyTheme
-                                    .interactivePanel(isFocused)
-                                    .onMouseEnter { focusedEntryId = entry.id }
-                                    .fillMaxSize(),
+                            GalaxyTheme
+                                .interactivePanel(isFocused)
+                                .onMouseEnter { focusedEntryId = entry.id }
+                                .fillMaxSize(),
                         ) {
                             Column(Modifier.gap(GalaxyTheme.s(1)).fillMaxSize().padding(bottom = GalaxyTheme.s(8))) {
                                 P(
-                                    attrs =
-                                        Modifier
-                                            .fontWeight(FontWeight.Bold)
-                                            .margin(0.px)
-                                            .fontSize(14.px)
-                                            .toAttrs(),
+                                    Modifier
+                                        .fontWeight(FontWeight.Bold)
+                                        .margin(0.px)
+                                        .fontSize(14.px)
+                                        .toAttrs(),
                                 ) {
                                     Text("${entry.author} · ${entry.date} · #${entry.id}")
                                 }
                                 P(
-                                    attrs =
-                                        Modifier
-                                            .margin(0.px)
-                                            .fontSize(14.px)
-                                            .fontWeight(350)
-                                            .lineHeight(1.45)
-                                            .toAttrs(),
+                                    Modifier
+                                        .margin(0.px)
+                                        .fontSize(14.px)
+                                        .fontWeight(350)
+                                        .lineHeight(1.45)
+                                        .toAttrs(),
                                 ) {
                                     Text(entry.text)
                                 }
@@ -334,20 +319,18 @@ fun ManagePage() {
 
             status?.let {
                 P(
-                    attrs =
-                        Modifier
-                            .color(GalaxyTheme.lavender)
-                            .fontSize(13.px)
-                            .toAttrs(),
+                    Modifier
+                        .color(GalaxyTheme.lavender)
+                        .fontSize(13.px)
+                        .toAttrs(),
                 ) { Text(it) }
             }
             error?.let {
                 P(
-                    attrs =
-                        Modifier
-                            .color(Color("#ff9ea5"))
-                            .fontSize(13.px)
-                            .toAttrs(),
+                    Modifier
+                        .color(Color("#ff9ea5"))
+                        .fontSize(13.px)
+                        .toAttrs(),
                 ) { Text("Error: $it") }
             }
         }
@@ -363,16 +346,15 @@ private fun IconActionButton(
     var hovered by remember { mutableStateOf(false) }
 
     Button(
-        attrs =
-            GalaxyTheme
-                .actionButtonModifier(isPrimary)
-                .transform { if (hovered) scale(1.06) else scale(0.92) }
-                .toAttrs {
-                    onMouseEnter { hovered = true }
-                    onMouseLeave { hovered = false }
-                    onClick { onClick() }
-                    title(icon.title)
-                },
+        GalaxyTheme
+            .actionButtonModifier(isPrimary)
+            .transform { if (hovered) scale(1.06) else scale(0.92) }
+            .toAttrs {
+                onMouseEnter { hovered = true }
+                onMouseLeave { hovered = false }
+                onClick { onClick() }
+                title(icon.title)
+            },
     ) {
         icon(Modifier.scale(0.75f))
     }
