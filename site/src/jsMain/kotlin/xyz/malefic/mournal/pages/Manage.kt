@@ -141,13 +141,13 @@ fun ManagePage() {
                                 },
                     )
                     Row(Modifier.gap(GalaxyTheme.s(1))) {
-                        ActionButton("Save Key", isPrimary = true) {
+                        IconActionButton(Icon.SAVE, isPrimary = true) {
                             saveApiKey(apiKeyDraft)
                             activeApiKey = apiKeyDraft.trim()
                             status = "API key saved."
                             error = null
                         }
-                        ActionButton("Clear Key") {
+                        IconActionButton(Icon.BACKSPACE) {
                             apiKeyDraft = ""
                             activeApiKey = ""
                             saveApiKey("")
@@ -349,29 +349,6 @@ fun ManagePage() {
                 ) { Text("Error: $it") }
             }
         }
-    }
-}
-
-@Composable
-private fun ActionButton(
-    label: String,
-    isPrimary: Boolean = false,
-    onClick: () -> Unit,
-) {
-    var hovered by remember { mutableStateOf(false) }
-
-    Button(
-        attrs =
-            GalaxyTheme
-                .actionButtonModifier(isPrimary)
-                .transform { if (hovered) scale(1.06) else scale(0.92) }
-                .toAttrs {
-                    onMouseEnter { hovered = true }
-                    onMouseLeave { hovered = false }
-                    onClick { onClick() }
-                },
-    ) {
-        Text(label)
     }
 }
 

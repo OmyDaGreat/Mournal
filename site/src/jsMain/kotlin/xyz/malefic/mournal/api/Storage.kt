@@ -17,9 +17,10 @@ fun saveApiKey(apiKey: String) {
 }
 
 fun todayDate(): String =
-    Date().let {
-        val year = it.getFullYear()
-        val month = it.getMonth() + 1
-        val day = it.getDate()
-        "$year-$month-$day"
-    }
+    Date()
+        .let {
+            val year = it.getFullYear()
+            val month = (it.getMonth() + 1).toString().padStart(2, '0')
+            val day = it.getDate().toString().padStart(2, '0')
+            "$year-$month-$day"
+        }

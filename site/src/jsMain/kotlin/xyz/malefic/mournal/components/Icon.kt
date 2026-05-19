@@ -4,11 +4,13 @@ import androidx.compose.runtime.Composable
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.silk.components.icons.mdi.IconStyle
 import com.varabyte.kobweb.silk.components.icons.mdi.MdiAdd
+import com.varabyte.kobweb.silk.components.icons.mdi.MdiBackspace
 import com.varabyte.kobweb.silk.components.icons.mdi.MdiBuild
 import com.varabyte.kobweb.silk.components.icons.mdi.MdiDelete
 import com.varabyte.kobweb.silk.components.icons.mdi.MdiEdit
 import com.varabyte.kobweb.silk.components.icons.mdi.MdiHome
 import com.varabyte.kobweb.silk.components.icons.mdi.MdiRefresh
+import com.varabyte.kobweb.silk.components.icons.mdi.MdiSave
 import com.varabyte.kobweb.silk.components.icons.mdi.MdiSearch
 import com.varabyte.kobweb.silk.components.icons.mdi.MdiUpdate
 
@@ -23,6 +25,8 @@ enum class Icon(
     BUILD({ modifier, style -> MdiBuild(modifier, style) }),
     PLUS({ modifier, style -> MdiAdd(modifier, style) }),
     UPDATE({ modifier, style -> MdiUpdate(modifier, style) }),
+    SAVE({ modifier, style -> MdiSave(modifier, style) }),
+    BACKSPACE({ modifier, style -> MdiBackspace(modifier, style) }),
 }
 
 @Composable
