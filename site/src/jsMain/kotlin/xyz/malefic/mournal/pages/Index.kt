@@ -7,50 +7,41 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.varabyte.kobweb.compose.css.FontWeight
-import com.varabyte.kobweb.compose.css.JustifyContent
 import com.varabyte.kobweb.compose.css.TextShadow
+import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.modifiers.alignItems
 import com.varabyte.kobweb.compose.ui.modifiers.color
-import com.varabyte.kobweb.compose.ui.modifiers.display
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
-import com.varabyte.kobweb.compose.ui.modifiers.flexDirection
+import com.varabyte.kobweb.compose.ui.modifiers.fillMaxWidth
 import com.varabyte.kobweb.compose.ui.modifiers.fontSize
 import com.varabyte.kobweb.compose.ui.modifiers.fontWeight
-import com.varabyte.kobweb.compose.ui.modifiers.gap
-import com.varabyte.kobweb.compose.ui.modifiers.justifyContent
 import com.varabyte.kobweb.compose.ui.modifiers.letterSpacing
 import com.varabyte.kobweb.compose.ui.modifiers.lineHeight
 import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.minHeight
+import com.varabyte.kobweb.compose.ui.modifiers.onMouseEnter
+import com.varabyte.kobweb.compose.ui.modifiers.onMouseLeave
 import com.varabyte.kobweb.compose.ui.modifiers.opacity
 import com.varabyte.kobweb.compose.ui.modifiers.padding
 import com.varabyte.kobweb.compose.ui.modifiers.textShadow
-import com.varabyte.kobweb.compose.ui.modifiers.width
-import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.Page
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
-import org.jetbrains.compose.web.css.AlignItems
-import org.jetbrains.compose.web.css.DisplayStyle
-import org.jetbrains.compose.web.css.FlexDirection
 import org.jetbrains.compose.web.css.em
-import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.rgba
-import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H1
-import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Span
 import org.jetbrains.compose.web.dom.Text
 import xyz.malefic.mournal.api.Entry
 import xyz.malefic.mournal.api.MainApi
 import xyz.malefic.mournal.components.EntryCard
 import xyz.malefic.mournal.components.EntryCardVariant
+import xyz.malefic.mournal.components.PText
 import xyz.malefic.mournal.styles.GalaxyTheme
 import kotlin.time.Duration.Companion.seconds
 
@@ -84,7 +75,7 @@ fun HomePage() {
                 Column(
                     GalaxyTheme.centeredColumn.padding(top = GalaxyTheme.s(2)),
                 ) {
-                    P { Text(error!!) }
+                    Text(error!!)
                 }
             }
 
@@ -122,45 +113,29 @@ fun HomePage() {
                         Text("LATEST ENTRIES")
                     }
 
-                    P(
-                        attrs =
-                            Modifier
-                                .color(GalaxyTheme.textSecondary)
-                                .fontSize(14.px)
-                                .margin(0.px)
-                                .fontWeight(350)
-                                .letterSpacing(.02.em)
-                                .toAttrs(),
-                    ) {
-                        Text(entries.first().date)
-                    }
+                    PText(
+                        Modifier
+                            .color(GalaxyTheme.textSecondary)
+                            .fontSize(14.px)
+                            .margin(0.px)
+                            .fontWeight(350)
+                            .letterSpacing(.02.em),
+                        entries.first().date,
+                    )
 
-                    Div(
-                        attrs =
-                            Modifier
-                                .width(100.percent)
-                                .padding(top = GalaxyTheme.s(2))
-                                .display(DisplayStyle.Grid)
-                                .styleModifier {
-                                    property("grid-template-columns", "repeat(auto-fit, minmax(260px, 1fr))")
-                                }.gap(16.px)
-                                .alignItems(AlignItems.Start)
-                                .toAttrs(),
+                    Column(
+                        Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(16.px),
                     ) {
                         entries.forEach { entry ->
                             val isFocused = focusedEntryId == entry.id
-                            Div(
-                                attrs =
-                                    GalaxyTheme
-                                        .interactivePanel(isFocused)
-                                        .minHeight(200.px)
-                                        .display(DisplayStyle.Flex)
-                                        .flexDirection(FlexDirection.Column)
-                                        .justifyContent(JustifyContent.SpaceBetween)
-                                        .toAttrs {
-                                            onMouseEnter { focusedEntryId = entry.id }
-                                            onMouseLeave { focusedEntryId = null }
-                                        },
+                            Box(
+                                GalaxyTheme
+                                    .interactivePanel(isFocused)
+                                    .minHeight(200.px)
+                                    .fillMaxWidth()
+                                    .onMouseEnter { focusedEntryId = entry.id }
+                                    .onMouseLeave { focusedEntryId = null },
                             ) {
                                 EntryCard(entry, EntryCardVariant.DEFAULT)
                             }

@@ -15,38 +15,38 @@ import com.varabyte.kobweb.compose.ui.modifiers.background
 import com.varabyte.kobweb.compose.ui.modifiers.border
 import com.varabyte.kobweb.compose.ui.modifiers.borderRadius
 import com.varabyte.kobweb.compose.ui.modifiers.color
-import com.varabyte.kobweb.compose.ui.modifiers.display
 import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
 import com.varabyte.kobweb.compose.ui.modifiers.fontSize
 import com.varabyte.kobweb.compose.ui.modifiers.fontWeight
 import com.varabyte.kobweb.compose.ui.modifiers.gap
 import com.varabyte.kobweb.compose.ui.modifiers.letterSpacing
 import com.varabyte.kobweb.compose.ui.modifiers.margin
+import com.varabyte.kobweb.compose.ui.modifiers.onMouseEnter
+import com.varabyte.kobweb.compose.ui.modifiers.onMouseLeave
 import com.varabyte.kobweb.compose.ui.modifiers.padding
 import com.varabyte.kobweb.compose.ui.modifiers.transition
 import com.varabyte.kobweb.compose.ui.modifiers.width
-import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.Page
+import com.varabyte.kobweb.silk.components.layout.SimpleGrid
+import com.varabyte.kobweb.silk.components.layout.numColumns
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.attributes.placeholder
 import org.jetbrains.compose.web.css.AnimationTimingFunction
 import org.jetbrains.compose.web.css.Color
-import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.em
 import org.jetbrains.compose.web.css.ms
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.Input
-import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
 import xyz.malefic.mournal.api.Entry
 import xyz.malefic.mournal.api.MainApi
 import xyz.malefic.mournal.components.EntryCard
 import xyz.malefic.mournal.components.EntryCardVariant
+import xyz.malefic.mournal.components.PText
 import xyz.malefic.mournal.styles.GalaxyTheme
 
 @Page("/search")
@@ -131,59 +131,44 @@ fun SearchPage() {
 
             when {
                 isLoading -> {
-                    P { Text("Loading history...") }
+                    PText(content = "Loading history...")
                 }
 
                 error != null -> {
-                    P { Text(error ?: "Unknown error") }
+                    PText(content = error ?: "Unknown error")
                 }
 
                 filteredEntries.isEmpty() -> {
-                    P(
-                        attrs =
-                            Modifier
-                                .color(GalaxyTheme.textSecondary)
-                                .fontSize(14.px)
-                                .toAttrs(),
-                    ) {
-                        Text("No entries found.")
-                    }
+                    PText(
+                        Modifier
+                            .color(GalaxyTheme.textSecondary)
+                            .fontSize(14.px),
+                        "No entries found.",
+                    )
                 }
 
                 else -> {
-                    P(
-                        attrs =
-                            Modifier
-                                .color(GalaxyTheme.textSecondary)
-                                .fontSize(13.px)
-                                .margin(0.px)
-                                .fontWeight(350)
-                                .letterSpacing(.04.em)
-                                .toAttrs(),
-                    ) {
-                        Text("FOUND ${filteredEntries.size}")
-                    }
+                    PText(
+                        Modifier
+                            .color(GalaxyTheme.textSecondary)
+                            .fontSize(13.px)
+                            .margin(0.px)
+                            .fontWeight(350)
+                            .letterSpacing(.04.em),
+                        "FOUND ${filteredEntries.size}",
+                    )
 
-                    Div(
-                        attrs =
-                            Modifier
-                                .width(100.percent)
-                                .display(DisplayStyle.Grid)
-                                .styleModifier {
-                                    property("grid-template-columns", "repeat(auto-fit, minmax(280px, 1fr))")
-                                }.gap(16.px)
-                                .toAttrs(),
+                    SimpleGrid(
+                        numColumns(base = 1, sm = 2, lg = 3, xl = 4),
+                        Modifier.width(100.percent).gap(16.px),
                     ) {
                         filteredEntries.forEach { entry ->
                             val isFocused = focusedEntryId == entry.id
-                            Div(
-                                attrs =
-                                    GalaxyTheme
-                                        .interactivePanel(isFocused)
-                                        .toAttrs {
-                                            onMouseEnter { focusedEntryId = entry.id }
-                                            onMouseLeave { focusedEntryId = null }
-                                        },
+                            Box(
+                                GalaxyTheme
+                                    .interactivePanel(isFocused)
+                                    .onMouseEnter { focusedEntryId = entry.id }
+                                    .onMouseLeave { focusedEntryId = null },
                             ) {
                                 EntryCard(entry, EntryCardVariant.COMPACT)
                             }

@@ -52,7 +52,6 @@ import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.H3
 import org.jetbrains.compose.web.dom.Input
-import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.dom.TextArea
 import xyz.malefic.mournal.api.Entry
@@ -64,6 +63,7 @@ import xyz.malefic.mournal.api.todayDate
 import xyz.malefic.mournal.components.EntryCard
 import xyz.malefic.mournal.components.EntryCardVariant
 import xyz.malefic.mournal.components.Icon
+import xyz.malefic.mournal.components.PText
 import xyz.malefic.mournal.components.invoke
 import xyz.malefic.mournal.styles.GalaxyTheme
 
@@ -158,14 +158,12 @@ fun ManagePage() {
             }
 
             if (activeApiKey.isBlank()) {
-                P(
+                PText(
                     Modifier
                         .color(GalaxyTheme.textSecondary)
-                        .fontWeight(350)
-                        .toAttrs(),
-                ) {
-                    Text("Provide an API key to unlock create, edit, and delete.")
-                }
+                        .fontWeight(350),
+                    "Provide an API key to unlock create, edit, and delete.",
+                )
             } else {
                 Box(GalaxyTheme.panelModifier) {
                     Column(Modifier.gap(GalaxyTheme.s(1))) {
@@ -299,20 +297,21 @@ fun ManagePage() {
             }
 
             status?.let {
-                P(
+                PText(
                     Modifier
                         .color(GalaxyTheme.lavender)
-                        .fontSize(13.px)
-                        .toAttrs(),
-                ) { Text(it) }
+                        .fontSize(13.px),
+                    it,
+                )
             }
+
             error?.let {
-                P(
+                PText(
                     Modifier
                         .color(Color("#ff9ea5"))
-                        .fontSize(13.px)
-                        .toAttrs(),
-                ) { Text("Error: $it") }
+                        .fontSize(13.px),
+                    "Error: $it",
+                )
             }
         }
     }
