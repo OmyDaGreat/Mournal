@@ -254,7 +254,7 @@ fun ManagePage() {
 
                 SimpleGrid(
                     numColumns(base = 1, sm = minOf(2, availableCols), lg = minOf(3, availableCols), xl = minOf(4, availableCols)),
-                    modifier = Modifier.width(100.percent).gap(16.px),
+                    Modifier.width(100.percent).gap(16.px),
                 ) {
                     entries.asReversed().forEach { entry ->
                         val isFocused = focusedEntryId == entry.id
@@ -262,10 +262,9 @@ fun ManagePage() {
                             GalaxyTheme
                                 .interactivePanel(isFocused)
                                 .onMouseEnter { focusedEntryId = entry.id }
-                                .onMouseLeave { focusedEntryId = null }
-                                .fillMaxSize(),
+                                .onMouseLeave { focusedEntryId = null },
                         ) {
-                            Column(Modifier.gap(GalaxyTheme.s(1)).fillMaxSize().padding(bottom = GalaxyTheme.s(8))) {
+                            Column(Modifier.gap(GalaxyTheme.s(1)).fillMaxSize()) {
                                 P(
                                     Modifier
                                         .fontWeight(FontWeight.Bold)
@@ -285,28 +284,29 @@ fun ManagePage() {
                                 ) {
                                     Text(entry.text)
                                 }
-                            }
-
-                            Row(Modifier.gap(GalaxyTheme.s(1)).align(Alignment.BottomEnd)) {
-                                IconActionButton(Icon.EDIT) {
-                                    editingEntryId = entry.id
-                                    formAuthor = entry.author
-                                    formText = entry.text
-                                    formDate = entry.date
-                                    formSongQuery = entry.song?.name ?: ""
-                                    status = "Loaded #${entry.id}."
-                                    error = null
-                                }
-                                IconActionButton(Icon.DELETE) {
-                                    scope.launch {
-                                        runCatching { MainApi.deleteEntry(entry.id, activeApiKey.trim()) }
-                                            .onSuccess {
-                                                status = "Deleted #${entry.id}."
-                                                if (editingEntryId == entry.id) resetForm()
-                                                loadHistory()
-                                            }.onFailure {
-                                                error = it.message ?: "Could not delete entry."
+                                Box(Modifier.fillMaxSize()) {
+                                    Row(Modifier.align(Alignment.BottomEnd)) {
+                                        IconActionButton(Icon.EDIT) {
+                                            editingEntryId = entry.id
+                                            formAuthor = entry.author
+                                            formText = entry.text
+                                            formDate = entry.date
+                                            formSongQuery = entry.song?.name ?: ""
+                                            status = "Loaded #${entry.id}."
+                                            error = null
+                                        }
+                                        IconActionButton(Icon.DELETE) {
+                                            scope.launch {
+                                                runCatching { MainApi.deleteEntry(entry.id, activeApiKey.trim()) }
+                                                    .onSuccess {
+                                                        status = "Deleted #${entry.id}."
+                                                        if (editingEntryId == entry.id) resetForm()
+                                                        loadHistory()
+                                                    }.onFailure {
+                                                        error = it.message ?: "Could not delete entry."
+                                                    }
                                             }
+                                        }
                                     }
                                 }
                             }
