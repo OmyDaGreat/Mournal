@@ -49,6 +49,8 @@ import org.jetbrains.compose.web.dom.Span
 import org.jetbrains.compose.web.dom.Text
 import xyz.malefic.mournal.api.Entry
 import xyz.malefic.mournal.api.MainApi
+import xyz.malefic.mournal.components.EntryCard
+import xyz.malefic.mournal.components.EntryCardVariant
 import xyz.malefic.mournal.styles.GalaxyTheme
 import kotlin.time.Duration.Companion.seconds
 
@@ -165,7 +167,7 @@ fun HomePage() {
                                             onMouseEnter { focusedEntryId = entry.id }
                                         },
                             ) {
-                                EntryCardContent(entry)
+                                EntryCard(entry, EntryCardVariant.DEFAULT)
                             }
                         }
                     }
@@ -175,56 +177,3 @@ fun HomePage() {
     }
 }
 
-@Composable
-private fun EntryCardContent(entry: Entry) {
-    Column(Modifier.gap(GalaxyTheme.s(1))) {
-        P(
-            attrs =
-                Modifier
-                    .fontWeight(FontWeight.Bold)
-                    .margin(0.px)
-                    .fontSize(15.px)
-                    .letterSpacing(.02.em)
-                    .toAttrs(),
-        ) {
-            Text(entry.author)
-        }
-        P(
-            attrs =
-                Modifier
-                    .color(GalaxyTheme.textSecondary)
-                    .margin(0.px)
-                    .fontSize(13.px)
-                    .fontWeight(350)
-                    .letterSpacing(.04.em)
-                    .toAttrs(),
-        ) {
-            Text(entry.date)
-        }
-        P(
-            attrs =
-                Modifier
-                    .margin(0.px)
-                    .fontSize(15.px)
-                    .fontWeight(350)
-                    .lineHeight(1.5)
-                    .toAttrs(),
-        ) {
-            Text(entry.text)
-        }
-        entry.song?.let { song ->
-            P(
-                attrs =
-                    Modifier
-                        .color(GalaxyTheme.lavender)
-                        .margin(0.px)
-                        .fontSize(13.px)
-                        .fontWeight(500)
-                        .letterSpacing(.01.em)
-                        .toAttrs(),
-            ) {
-                Text("♪ ${song.name} — ${song.artists.joinToString{ it.name }.replaceAfterLast(", ", " & ${entry.song.artists.last()}")}")
-            }
-        }
-    }
-}

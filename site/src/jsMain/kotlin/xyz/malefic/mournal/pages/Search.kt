@@ -21,7 +21,6 @@ import com.varabyte.kobweb.compose.ui.modifiers.fontSize
 import com.varabyte.kobweb.compose.ui.modifiers.fontWeight
 import com.varabyte.kobweb.compose.ui.modifiers.gap
 import com.varabyte.kobweb.compose.ui.modifiers.letterSpacing
-import com.varabyte.kobweb.compose.ui.modifiers.lineHeight
 import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.padding
 import com.varabyte.kobweb.compose.ui.modifiers.transition
@@ -46,6 +45,8 @@ import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
 import xyz.malefic.mournal.api.Entry
 import xyz.malefic.mournal.api.MainApi
+import xyz.malefic.mournal.components.EntryCard
+import xyz.malefic.mournal.components.EntryCardVariant
 import xyz.malefic.mournal.styles.GalaxyTheme
 
 @Page("/search")
@@ -189,49 +190,7 @@ fun SearchPage() {
                                             onMouseEnter { focusedEntryId = entry.id }
                                         },
                             ) {
-                                Column(Modifier.gap(GalaxyTheme.s(1))) {
-                                    P(
-                                        attrs =
-                                            Modifier
-                                                .fontWeight(FontWeight.Bold)
-                                                .margin(0.px)
-                                                .fontSize(14.px)
-                                                .letterSpacing(.02.em)
-                                                .toAttrs(),
-                                    ) {
-                                        Text("${entry.author} · ${entry.date} · #${entry.id}")
-                                    }
-                                    P(
-                                        attrs =
-                                            Modifier
-                                                .margin(0.px)
-                                                .fontSize(14.px)
-                                                .fontWeight(350)
-                                                .lineHeight(1.45)
-                                                .toAttrs(),
-                                    ) {
-                                        Text(entry.text)
-                                    }
-                                    entry.song?.let { song ->
-                                        P(
-                                            attrs =
-                                                Modifier
-                                                    .color(GalaxyTheme.lavender)
-                                                    .margin(0.px)
-                                                    .fontSize(13.px)
-                                                    .fontWeight(500)
-                                                    .letterSpacing(.01.em)
-                                                    .toAttrs(),
-                                        ) {
-                                            Text(
-                                                "♪ ${song.name} — ${song.artists.joinToString{ it.name }.replaceAfterLast(
-                                                    ", ",
-                                                    " & ${entry.song.artists.last()}",
-                                                )}",
-                                            )
-                                        }
-                                    }
-                                }
+                                EntryCard(entry, EntryCardVariant.COMPACT)
                             }
                         }
                     }

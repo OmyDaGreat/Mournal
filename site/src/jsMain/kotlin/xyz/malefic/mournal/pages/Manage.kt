@@ -25,7 +25,6 @@ import com.varabyte.kobweb.compose.ui.modifiers.fontSize
 import com.varabyte.kobweb.compose.ui.modifiers.fontWeight
 import com.varabyte.kobweb.compose.ui.modifiers.gap
 import com.varabyte.kobweb.compose.ui.modifiers.letterSpacing
-import com.varabyte.kobweb.compose.ui.modifiers.lineHeight
 import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.minHeight
 import com.varabyte.kobweb.compose.ui.modifiers.onMouseEnter
@@ -62,6 +61,8 @@ import xyz.malefic.mournal.api.MainApi
 import xyz.malefic.mournal.api.readSavedApiKey
 import xyz.malefic.mournal.api.saveApiKey
 import xyz.malefic.mournal.api.todayDate
+import xyz.malefic.mournal.components.EntryCard
+import xyz.malefic.mournal.components.EntryCardVariant
 import xyz.malefic.mournal.components.Icon
 import xyz.malefic.mournal.components.invoke
 import xyz.malefic.mournal.styles.GalaxyTheme
@@ -264,71 +265,34 @@ fun ManagePage() {
                                 .onMouseEnter { focusedEntryId = entry.id }
                                 .onMouseLeave { focusedEntryId = null },
                         ) {
-                            Column(Modifier.gap(GalaxyTheme.s(1)).fillMaxSize()) {
-                                P(
-                                    Modifier
-                                        .fontWeight(FontWeight.Bold)
-                                        .margin(0.px)
-                                        .fontSize(14.px)
-                                        .toAttrs(),
-                                ) {
-                                    Text("${entry.author} · ${entry.date} · #${entry.id}")
-                                }
-                                P(
-                                    Modifier
-                                        .margin(0.px)
-                                        .fontSize(14.px)
-                                        .fontWeight(350)
-                                        .lineHeight(1.45)
-                                        .toAttrs(),
-                                ) {
-                                    Text(entry.text)
-                                }
-                                entry.song?.let { song ->
-                                    P(
-                                        attrs =
-                                            Modifier
-                                                .color(GalaxyTheme.lavender)
-                                                .margin(0.px)
-                                                .fontSize(13.px)
-                                                .fontWeight(500)
-                                                .letterSpacing(.01.em)
-                                                .toAttrs(),
-                                    ) {
-                                        Text(
-                                            "♪ ${song.name} — ${song.artists.joinToString{ it.name }.replaceAfterLast(
-                                                ", ",
-                                                " & ${entry.song.artists.last()}",
-                                            )}",
-                                        )
+                            EntryCard(
+                                entry,
+                                EntryCardVariant.COMPACT,
+                                Modifier.gap(GalaxyTheme.s(1)).fillMaxSize(),
+                                actionButtons = {
+                                    IconActionButton(Icon.EDIT) {
+                                        editingEntryId = entry.id
+                                        formAuthor = entry.author
+                                        formText = entry.text
+                                        formDate = entry.date
+                                        formSongQuery = entry.song?.name ?: ""
+                                        status = "Loaded #${entry.id}."
+                                        error = null
                                     }
-                                }
-                                Box(Modifier.fillMaxSize()) {
-                                    Row(Modifier.align(Alignment.BottomEnd)) {
-                                        IconActionButton(Icon.EDIT) {
-                                            editingEntryId = entry.id
-                                            formAuthor = entry.author
-                                            formText = entry.text
-                                            formDate = entry.date
-                                            formSongQuery = entry.song?.name ?: ""
-                                            status = "Loaded #${entry.id}."
-                                            error = null
-                                        }
-                                        IconActionButton(Icon.DELETE) {
-                                            scope.launch {
-                                                runCatching { MainApi.deleteEntry(entry.id, activeApiKey.trim()) }
-                                                    .onSuccess {
-                                                        status = "Deleted #${entry.id}."
-                                                        if (editingEntryId == entry.id) resetForm()
-                                                        loadHistory()
-                                                    }.onFailure {
-                                                        error = it.message ?: "Could not delete entry."
-                                                    }
-                                            }
+                                    IconActionButton(Icon.DELETE) {
+                                        scope.launch {
+                                            runCatching { MainApi.deleteEntry(entry.id, activeApiKey.trim()) }
+                                                .onSuccess {
+                                                    status = "Deleted #${entry.id}."
+                                                    if (editingEntryId == entry.id) resetForm()
+                                                    loadHistory()
+                                                }.onFailure {
+                                                    error = it.message ?: "Couldn't delete the entry."
+                                                }
                                         }
                                     }
-                                }
-                            }
+                                },
+                            )
                         }
                     }
                 }
