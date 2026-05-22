@@ -75,12 +75,6 @@ fun HomePage() {
         }
     }
 
-    LaunchedEffect(entries) {
-        if (entries.isNotEmpty() && entries.none { it.id == focusedEntryId }) {
-            focusedEntryId = entries.first().id
-        }
-    }
-
     Box(
         GalaxyTheme.pageFrame,
         contentAlignment = Alignment.TopCenter,
@@ -165,6 +159,7 @@ fun HomePage() {
                                         .justifyContent(JustifyContent.SpaceBetween)
                                         .toAttrs {
                                             onMouseEnter { focusedEntryId = entry.id }
+                                            onMouseLeave { focusedEntryId = null }
                                         },
                             ) {
                                 EntryCard(entry, EntryCardVariant.DEFAULT)
@@ -176,4 +171,3 @@ fun HomePage() {
         }
     }
 }
-

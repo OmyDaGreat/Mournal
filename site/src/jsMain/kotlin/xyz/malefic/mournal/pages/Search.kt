@@ -88,12 +88,6 @@ fun SearchPage() {
             }
         }
 
-    LaunchedEffect(filteredEntries) {
-        if (filteredEntries.isNotEmpty() && filteredEntries.none { it.id == focusedEntryId }) {
-            focusedEntryId = filteredEntries.first().id
-        }
-    }
-
     Box(GalaxyTheme.pageFrame, contentAlignment = Alignment.TopCenter) {
         Column(
             GalaxyTheme.centeredColumn
@@ -188,6 +182,7 @@ fun SearchPage() {
                                         .interactivePanel(isFocused)
                                         .toAttrs {
                                             onMouseEnter { focusedEntryId = entry.id }
+                                            onMouseLeave { focusedEntryId = null }
                                         },
                             ) {
                                 EntryCard(entry, EntryCardVariant.COMPACT)
