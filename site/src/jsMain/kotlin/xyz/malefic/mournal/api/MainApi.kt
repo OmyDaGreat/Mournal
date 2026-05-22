@@ -10,7 +10,7 @@ object MainApi {
     suspend fun upsertEntry(
         payload: EntryPayload,
         apiKey: String,
-    ): Entry? {
+    ): Entry {
         val body =
             JSON.stringify(
                 json(

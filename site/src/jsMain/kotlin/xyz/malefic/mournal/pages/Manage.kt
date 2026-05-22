@@ -231,15 +231,15 @@ fun ManagePage() {
                                         )
                                     runCatching { MainApi.upsertEntry(payload, activeApiKey.trim()) }
                                         .onSuccess { saved ->
-                                            if (saved != null) {
-                                                status = "Saved #${saved.id}."
-                                                resetForm()
-                                                loadHistory()
-                                            } else {
-                                                status = "No entry was returned."
+                                            if (formSongQuery.isNotBlank() && saved.song == null) {
+                                                status = "Saved #${saved.id}, but the song was not found."
+                                                return@onSuccess
                                             }
+                                            status = "Saved #${saved.id}."
+                                            resetForm()
+                                            loadHistory()
                                         }.onFailure {
-                                            error = it.message ?: "Could not save entry."
+                                            error = it.message ?: "Could not save the entry."
                                         }
                                 }
                             }
