@@ -284,6 +284,25 @@ fun ManagePage() {
                                 ) {
                                     Text(entry.text)
                                 }
+                                entry.song?.let { song ->
+                                    P(
+                                        attrs =
+                                            Modifier
+                                                .color(GalaxyTheme.lavender)
+                                                .margin(0.px)
+                                                .fontSize(13.px)
+                                                .fontWeight(500)
+                                                .letterSpacing(.01.em)
+                                                .toAttrs(),
+                                    ) {
+                                        Text(
+                                            "♪ ${song.name} — ${song.artists.joinToString{ it.name }.replaceAfterLast(
+                                                ", ",
+                                                " & ${entry.song.artists.last()}",
+                                            )}",
+                                        )
+                                    }
+                                }
                                 Box(Modifier.fillMaxSize()) {
                                     Row(Modifier.align(Alignment.BottomEnd)) {
                                         IconActionButton(Icon.EDIT) {
