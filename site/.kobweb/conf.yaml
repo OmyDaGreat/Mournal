@@ -1,6 +1,5 @@
 site:
   title: "Mournal"
-  basePath: "Mournal"
 
 server:
   files:

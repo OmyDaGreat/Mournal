@@ -27,46 +27,52 @@ import org.jetbrains.compose.web.css.em
 import org.jetbrains.compose.web.css.ms
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.css.rgba
 import org.jetbrains.compose.web.css.vh
+import xyz.malefic.kutint.rgba
 
 object GalaxyTheme {
-    // 4 Core Theme Colors (RGBA)
-    val deepPurple = rgba(43, 30, 62, 1f)
-    val cosmicBlue = rgba(74, 78, 143, 1f)
-    val lavender = rgba(164, 144, 194, 1f)
-    val silver = rgba(230, 230, 250, 1f)
+    /** Deep purple - primary dark color for backgrounds and depth */
+    val deepPurple = rgba(43, 30, 62)
 
-    // Component Colors (RGBA)
-    val pageBackground = rgba(7, 11, 22, 1f)
-    val pagePanel = rgba(16, 23, 43, 1f)
-    val pagePanelMuted = rgba(12, 19, 36, 1f)
-    val panelBorder = rgba(47, 54, 85, 1f)
-    val textPrimary = rgba(242, 240, 255, 1f)
-    val textSecondary = rgba(174, 181, 211, 1f)
+    /** Cosmic blue - secondary color for accents and interactive elements */
+    val cosmicBlue = rgba(74, 78, 143)
 
-    // Color Variants (RGBA) for Interactive Elements
-    val sidebarBackground = rgba(9, 15, 29, 1f)
-    val navItemCurrentBg = rgba(32, 42, 74, 1f)
-    val navItemInactiveBg = rgba(18, 26, 49, 1f)
-    val navItemCurrentText = rgba(247, 244, 255, 1f)
-    val navItemInactiveText = rgba(208, 213, 239, 1f)
-    val inputBackground = rgba(15, 21, 40, 1f)
-    val silverAccent = rgba(230, 230, 250, 0.15f)
+    /** Lavender - tertiary color for highlights and borders */
+    val lavender = rgba(164, 144, 194)
 
-    // Error/Status Colors (RGBA)
-    val errorColor = rgba(255, 158, 165, 1f)
+    /** Silver - quaternary color for text and light elements */
+    val silver = rgba(230, 230, 250)
 
-    // RGBA Color Variants (with transparency for shadows and glows)
-    val lavenderGlow = rgba(164, 144, 194, 0.45f)
-    val lavenderShadow = rgba(164, 144, 194, 0.25f)
-    val cosmicBlueShadow = rgba(74, 78, 143, 0.26f)
-    val cosmicBlueGlow = rgba(74, 78, 143, 0.22f)
-    val pageBackgroundFaint = rgba(7, 11, 22, 0.08f)
-    val pageBackgroundFainter = rgba(7, 11, 22, 0.04f)
-    val deepPurpleShadow = rgba(43, 30, 62, 0.15f)
-    val lavenderGradient = rgba(164, 144, 194, 0.18f)
-    val cosmicBlueGradient = rgba(74, 78, 143, 0.26f)
+    // Component Colors (derived from core colors)
+    val pageBackground = deepPurple.dim(0.9f)
+    val pagePanel = deepPurple.dim(0.8f)
+    val pagePanelMuted = deepPurple.dim(0.75f)
+    val panelBorder = cosmicBlue.dim(0.5f)
+    val textPrimary = silver.tint(0.05f)
+    val textSecondary = silver.desaturate(0.3f).dim(0.2f)
+
+    // Color Variants for Interactive Elements
+    val sidebarBackground = deepPurple.dim(0.95f)
+    val navItemCurrentBg = cosmicBlue.dim(0.55f)
+    val navItemInactiveBg = deepPurple.dim(0.7f)
+    val navItemCurrentText = lavender.tint(0.15f)
+    val navItemInactiveText = silver.desaturate(0.4f)
+    val inputBackground = deepPurple.dim(0.7f)
+    val silverAccent = silver.withAlpha(0.15f)
+
+    // Error/Status Colors
+    val errorColor = lavender.hueRotate(-60).saturate(0.5f).tint(0.3f)
+
+    // Shadow & Glow Colors (with transparency)
+    val lavenderGlow = lavender.withAlpha(0.45f)
+    val lavenderShadow = lavender.dim(0.3f).withAlpha(0.25f)
+    val cosmicBlueShadow = cosmicBlue.dim(0.4f).withAlpha(0.26f)
+    val cosmicBlueGlow = cosmicBlue.withAlpha(0.22f)
+    val pageBackgroundFaint = deepPurple.dim(0.9f).withAlpha(0.08f)
+    val pageBackgroundFainter = deepPurple.dim(0.9f).withAlpha(0.04f)
+    val deepPurpleShadow = deepPurple.dim(0.3f).withAlpha(0.15f)
+    val lavenderGradient = lavender.withAlpha(0.18f)
+    val cosmicBlueGradient = cosmicBlue.withAlpha(0.26f)
 
     fun s(step: Int) = (step * 8).px
 
