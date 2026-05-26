@@ -11,14 +11,14 @@ import com.varabyte.kobweb.silk.components.layout.Surface
 import com.varabyte.kobweb.silk.style.CssStyle
 import com.varabyte.kobweb.silk.style.base
 import com.varabyte.kobweb.silk.style.toModifier
-import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.vh
+import xyz.malefic.mournal.styles.GalaxyTheme
 
 val AppSurfaceStyle =
     CssStyle.base {
         com.varabyte.kobweb.compose.ui.Modifier
-            .background(Color("#070b16"))
-            .color(Color("#f2f0ff"))
+            .background(GalaxyTheme.pageBackground)
+            .color(GalaxyTheme.textPrimary)
     }
 
 @App

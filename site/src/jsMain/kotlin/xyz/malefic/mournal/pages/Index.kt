@@ -33,7 +33,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import org.jetbrains.compose.web.css.em
 import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.css.rgba
 import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.Span
 import org.jetbrains.compose.web.dom.Text
@@ -89,7 +88,7 @@ fun HomePage() {
                                 .color(GalaxyTheme.lavender)
                                 .lineHeight(0.9)
                                 .opacity(0.92)
-                                .textShadow(TextShadow.of(0.px, 0.px, 34.px, color = rgba(164, 144, 194, .45f)))
+                                .textShadow(TextShadow.of(0.px, 0.px, 34.px, color = GalaxyTheme.lavenderGlow))
                                 .toAttrs(),
                     ) {
                         Text("?")

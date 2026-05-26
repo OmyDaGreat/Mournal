@@ -7,7 +7,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.varabyte.kobweb.compose.css.BoxShadow
 import com.varabyte.kobweb.compose.css.Cursor
-import com.varabyte.kobweb.compose.css.Transition
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
@@ -43,7 +42,6 @@ import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.navigation.Link
 import org.jetbrains.compose.web.css.AlignItems
 import org.jetbrains.compose.web.css.AnimationTimingFunction
-import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.JustifyContent
 import org.jetbrains.compose.web.css.LineStyle
@@ -74,8 +72,8 @@ fun NavBarLayout(content: @Composable () -> Unit) {
                 .fillMaxHeight()
                 .minHeight(100.vh)
                 .width(72.px)
-                .background(Color("#090f1d"))
-                .border(1.px, LineStyle.Solid, Color("#242d4a"))
+                .background(GalaxyTheme.sidebarBackground)
+                .border(1.px, LineStyle.Solid, GalaxyTheme.panelBorder)
                 .styleModifier { property("border-left", "none") }
                 .padding(topBottom = GalaxyTheme.s(3), leftRight = GalaxyTheme.s(1)),
             Alignment.TopCenter,
@@ -98,10 +96,10 @@ fun NavBarLayout(content: @Composable () -> Unit) {
                             Modifier
                                 .width(48.px)
                                 .height(48.px)
-                                .background(if (isCurrent) Color("#202a4a") else Color("#121a31"))
-                                .border(1.px, LineStyle.Solid, if (isFocused) Color("#a490c2") else Color("#2f3655"))
+                                .background(if (isCurrent) GalaxyTheme.navItemCurrentBg else GalaxyTheme.navItemInactiveBg)
+                                .border(1.px, LineStyle.Solid, if (isFocused) GalaxyTheme.lavender else GalaxyTheme.panelBorder)
                                 .borderRadius(6.px)
-                                .color(if (isCurrent) Color("#f7f4ff") else Color("#d0d5ef"))
+                                .color(if (isCurrent) GalaxyTheme.navItemCurrentText else GalaxyTheme.navItemInactiveText)
                                 .fontWeight(if (isCurrent) 700 else 500)
                                 .fontSize(14.px)
                                 .cursor(Cursor.Pointer)
@@ -114,14 +112,14 @@ fun NavBarLayout(content: @Composable () -> Unit) {
                                 .transform { if (isFocused) scale(1.08) else scale(0.88) }
                                 .boxShadow(
                                     BoxShadow
-                                        .of(0.px, 0.px, 0.px, 1.px, rgba(164, 144, 194, .25f))
+                                        .of(0.px, 0.px, 0.px, 1.px, GalaxyTheme.lavenderShadow)
                                         .takeUnless { isFocused }
                                         ?: BoxShadow.of(0.px, 6.px, 10.px, color = rgba(0, 0, 0, .28f)),
-                                ).transition(
-                                    Transition.of("transform", 180.ms, AnimationTimingFunction.Ease),
-                                    Transition.of("box-shadow", 180.ms, AnimationTimingFunction.Ease),
-                                    Transition.of("border-color", 180.ms, AnimationTimingFunction.Ease),
-                                ),
+                                ).transition {
+                                    property("box-shadow", "border-color", "transform")
+                                    duration(180.ms)
+                                    timingFunction(AnimationTimingFunction.Ease)
+                                },
                         ) {
                             page.icon()
                         }
@@ -140,8 +138,8 @@ fun NavBarLayout(content: @Composable () -> Unit) {
                 .styleModifier {
                     property(
                         "background-image",
-                        "radial-gradient(circle at 12% 18%, rgba(74, 78, 143, 0.26) 0%, rgba(7, 11, 22, 0.08) 36%), " +
-                            "radial-gradient(circle at 78% 8%, rgba(164, 144, 194, 0.18) 0%, rgba(7, 11, 22, 0.04) 42%)",
+                        "radial-gradient(circle at 12% 18%, ${GalaxyTheme.cosmicBlueGradient} 0%, ${GalaxyTheme.pageBackgroundFaint} 36%), " +
+                            "radial-gradient(circle at 78% 8%, ${GalaxyTheme.lavenderGradient} 0%, ${GalaxyTheme.pageBackgroundFainter} 42%)",
                     )
                 },
             contentAlignment = Alignment.TopCenter,

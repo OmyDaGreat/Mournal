@@ -42,7 +42,6 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.attributes.placeholder
 import org.jetbrains.compose.web.css.AnimationTimingFunction
-import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.em
 import org.jetbrains.compose.web.css.ms
@@ -308,7 +307,7 @@ fun ManagePage() {
             error?.let {
                 PText(
                     Modifier
-                        .color(Color("#ff9ea5"))
+                        .color(GalaxyTheme.errorColor)
                         .fontSize(13.px),
                     "Error: $it",
                 )
@@ -343,7 +342,7 @@ private fun IconActionButton(
 private fun inputFieldModifier(): Modifier =
     Modifier
         .width(100.percent)
-        .background(Color("#0f1528"))
+        .background(GalaxyTheme.inputBackground)
         .border(1.px, LineStyle.Solid, GalaxyTheme.panelBorder)
         .borderRadius(6.px)
         .padding(GalaxyTheme.s(2))

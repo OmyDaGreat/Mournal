@@ -33,7 +33,6 @@ import com.varabyte.kobweb.silk.components.layout.numColumns
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.attributes.placeholder
 import org.jetbrains.compose.web.css.AnimationTimingFunction
-import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.em
 import org.jetbrains.compose.web.css.ms
@@ -114,7 +113,7 @@ fun SearchPage() {
                         .borderRadius(6.px)
                         .padding(GalaxyTheme.s(2))
                         .color(GalaxyTheme.textPrimary)
-                        .background(Color("#0f1528"))
+                        .background(GalaxyTheme.inputBackground)
                         .fontFamily("Inter", "Avenir Next", "Segoe UI", "sans-serif")
                         .fontSize(14.px)
                         .fontWeight(350)
