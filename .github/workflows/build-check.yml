@@ -1,4 +1,4 @@
-name: Deploy Kobweb site to Pages
+name: Build Check
 
 on:
   pull_request:
