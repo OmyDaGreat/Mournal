@@ -65,7 +65,6 @@ private suspend fun getEntries(url: String): List<Entry> {
     val response = request(url)
     return when (response.status) {
         200 -> parseEntries(response.body)
-        204 -> emptyList()
         else -> throwApiError(response.status, response.body)
     }
 }

@@ -42,6 +42,7 @@ import xyz.malefic.mournal.components.EntryCard
 import xyz.malefic.mournal.components.EntryCardVariant
 import xyz.malefic.mournal.components.PText
 import xyz.malefic.mournal.styles.GalaxyTheme
+import xyz.malefic.mournal.styles.GalaxyTheme.s
 import kotlin.time.Duration.Companion.seconds
 
 @Page
@@ -72,33 +73,49 @@ fun HomePage() {
         when {
             error != null -> {
                 Column(
-                    GalaxyTheme.centeredColumn.padding(top = GalaxyTheme.s(2)),
+                    GalaxyTheme.centeredColumn.padding(top = s(2)),
                 ) {
                     Text(error!!)
                 }
             }
 
-            isLoading || entries.isEmpty() -> {
+            isLoading -> {
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Span(
-                        attrs =
-                            Modifier
-                                .fontSize(220.px)
-                                .fontWeight(FontWeight.Black)
-                                .color(GalaxyTheme.lavender)
-                                .lineHeight(0.9)
-                                .opacity(0.92)
-                                .textShadow(TextShadow.of(0.px, 0.px, 34.px, color = GalaxyTheme.lavenderGlow))
-                                .toAttrs(),
+                        Modifier
+                            .fontSize(220.px)
+                            .fontWeight(FontWeight.Black)
+                            .color(GalaxyTheme.lavender)
+                            .lineHeight(0.9)
+                            .opacity(0.92)
+                            .textShadow(TextShadow.of(0.px, 0.px, 34.px, color = GalaxyTheme.lavenderGlow))
+                            .toAttrs(),
                     ) {
                         Text("?")
                     }
                 }
             }
 
+            entries.isEmpty() -> {
+                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Span(
+                        Modifier
+                            .fontSize(s(10))
+                            .fontWeight(FontWeight.Black)
+                            .color(GalaxyTheme.lavender)
+                            .lineHeight(0.9)
+                            .opacity(0.92)
+                            .textShadow(TextShadow.of(0.px, 0.px, 34.px, color = GalaxyTheme.lavenderGlow))
+                            .toAttrs(),
+                    ) {
+                        Text("No entries yet.")
+                    }
+                }
+            }
+
             else -> {
                 Column(
-                    GalaxyTheme.centeredColumn.padding(top = GalaxyTheme.s(2)),
+                    GalaxyTheme.centeredColumn.padding(top = s(2)),
                 ) {
                     H1(
                         attrs =
