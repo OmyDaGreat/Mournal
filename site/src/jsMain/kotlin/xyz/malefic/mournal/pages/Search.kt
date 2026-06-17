@@ -61,7 +61,7 @@ fun SearchPage() {
         isLoading = true
         error = null
         allEntries =
-            runCatching { MainApi.getHistory() }
+            runCatching { MainApi.getAllEntries() }
                 .onFailure { error = it.message ?: "Could not load history." }
                 .getOrDefault(emptyList())
         isLoading = false

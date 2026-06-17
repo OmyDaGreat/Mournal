@@ -96,7 +96,7 @@ fun ManagePage() {
         scope.launch {
             error = null
             entries =
-                runCatching { MainApi.getHistory() }
+                runCatching { MainApi.getAllEntries() }
                     .onFailure { error = it.message ?: "Could not load entries." }
                     .getOrDefault(emptyList())
         }

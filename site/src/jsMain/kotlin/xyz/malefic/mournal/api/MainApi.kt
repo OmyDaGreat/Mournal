@@ -3,9 +3,11 @@ package xyz.malefic.mournal.api
 import kotlin.js.json
 
 object MainApi {
-    suspend fun getLatestEntries(): List<Entry> = getEntries("${DAILY_MALEFIC_BASE_URL}/entry")
+    private const val DAILY_MALEFIC_API_URL = "https://daily.malefic.xyz/api"
 
-    suspend fun getHistory(): List<Entry> = getEntries("${DAILY_MALEFIC_BASE_URL}/entry/history")
+    suspend fun getLatestEntries(): List<Entry> = getEntries("${DAILY_MALEFIC_API_URL}/entries?latest=true")
+
+    suspend fun getAllEntries(): List<Entry> = getEntries("${DAILY_MALEFIC_API_URL}/entries")
 
     suspend fun upsertEntry(
         payload: EntryPayload,
@@ -14,7 +16,6 @@ object MainApi {
         val body =
             JSON.stringify(
                 json(
-                    "id" to payload.id,
                     "author" to payload.author,
                     "text" to payload.text,
                     "date" to payload.date,
@@ -22,14 +23,23 @@ object MainApi {
                 ),
             )
         val response =
-            request(
-                url = "${DAILY_MALEFIC_BASE_URL}/entry",
-                method = "POST",
-                body = body,
-                apiKey = apiKey,
-            )
+            if (payload.id == null) {
+                request(
+                    url = "${DAILY_MALEFIC_API_URL}/entries",
+                    method = "POST",
+                    body = body,
+                    apiKey = apiKey,
+                )
+            } else {
+                request(
+                    url = "${DAILY_MALEFIC_API_URL}/entries/${payload.id}",
+                    method = "PUT",
+                    body = body,
+                    apiKey = apiKey,
+                )
+            }
         return when (response.status) {
-            200 -> parseEntry(response.body)
+            200, 201 -> parseEntry(response.body)
             else -> throwApiError(response.status, response.body)
         }
     }
@@ -38,12 +48,10 @@ object MainApi {
         id: Long,
         apiKey: String,
     ) {
-        val body = JSON.stringify(json("id" to id.toString()))
         val response =
             request(
-                url = "${DAILY_MALEFIC_BASE_URL}/entry",
+                url = "${DAILY_MALEFIC_API_URL}/entries/$id",
                 method = "DELETE",
-                body = body,
                 apiKey = apiKey,
             )
         when (response.status) {

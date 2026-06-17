@@ -1,7 +1,5 @@
 package xyz.malefic.mournal.api
 
-const val DAILY_MALEFIC_BASE_URL = "https://daily.malefic.xyz"
-
 data class Artist(
     val id: String,
     val name: String,
